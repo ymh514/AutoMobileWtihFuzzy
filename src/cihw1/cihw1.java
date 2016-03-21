@@ -28,9 +28,6 @@ public class cihw1 extends Application {
 	static int count = 0;
 	private Canvas canvasPane;
 	private Car car;
-	private String dst1 = "";
-	private String dst2 = "";
-	private String dst3 = "";
 
 	private Label line1Dist = new Label("Line 1 distance");
 	private Label line2Dist = new Label("Line 2 distance");
@@ -44,9 +41,6 @@ public class cihw1 extends Application {
 		BorderPane ciPane = new BorderPane();
 		VBox infoBox = new VBox(10);
 		Button start = new Button("Start");
-		// Label line1Dist = new Label("Line 1 distance");
-		// Label line2Dist = new Label("Line 2 distance");
-		// Label line3Dist = new Label("Line 3 distance");
 
 		infoBox.setPadding(new Insets(15, 15, 15, 15));
 		infoBox.getChildren().addAll(start, line1Dist, line2Dist, line3Dist);
@@ -62,20 +56,26 @@ public class cihw1 extends Application {
 		Line line1 = new Line();
 		line1.setStartX(0);
 		line1.setStartY(0);
-		line1.endXProperty().bind(car.centerXProperty().subtract(ratio * 3));
+//		line1.startXProperty().bind(car.centerXProperty().divide(other));
+//		line1.startYProperty().bind(car.centerYProperty());
+		line1.endXProperty().bind(car.centerXProperty());
 		line1.endYProperty().bind(car.centerYProperty());
+		line1.setStroke(Color.RED);
 
 		Line line2 = new Line();
-		line2.setStartX(0);
+		line2.setStartX(100);
 		line2.setStartY(0);
 		line2.endXProperty().bind(car.centerXProperty());
-		line2.endYProperty().bind(car.centerYProperty().subtract(ratio * 3));
+		line2.endYProperty().bind(car.centerYProperty());
+		line2.setStroke(Color.BLUE);
 
 		Line line3 = new Line();
-		line3.setStartX(0);
+		line3.setStartX(200);
 		line3.setStartY(0);
-		line3.endXProperty().bind(car.centerXProperty().add(ratio * 3));
+//		line3.endXProperty().bind(car.centerXProperty().add(ratio * 3));
+		line3.endXProperty().bind(car.centerXProperty());
 		line3.endYProperty().bind(car.centerYProperty());
+		line3.setStroke(Color.GREEN);
 
 		canvasPane.getChildren().addAll(line1, line2, line3);
 
@@ -101,13 +101,11 @@ public class cihw1 extends Application {
 			// }
 			new Thread() {
 				public void run() {
-
 					while (true) {
-//						new Thread(task){		
-//						}.start();
-
+						// open thread do something
+						
 						System.out.println(Thread.currentThread());
-						tuneCar(car);
+
 						count++;
 						
 						try {
@@ -115,15 +113,17 @@ public class cihw1 extends Application {
 							Thread.sleep(250);
 							
 							Platform.runLater(new Runnable() {
+								//GUI update by javafx thread
 								@Override
 								public void run() {
-									System.out.println("******************************************************");
-									System.out.println(Thread.currentThread());
-									System.out.println("******************************************************");
-									drawPath(canvasPane, car);
-									 line1Dist.setText("dist : "+car.getCenterX());
-									 line2Dist.setText("dist : "+car.getCenterX());
-									 line3Dist.setText("dist : "+car.getCenterX());
+									
+									printCurrentThread();
+									
+									car.tuneCar(canvasPane);
+									
+									line1Dist.setText("dist : "+car.getCenterY());
+									line2Dist.setText("dist : "+car.getCenterY());
+									line3Dist.setText("dist : "+car.getCenterY());
 
 								}
 							});
@@ -133,7 +133,7 @@ public class cihw1 extends Application {
 							e.printStackTrace();
 						}
 
-						if (count > 30) {
+						if (count > 5) {
 							System.out.println("break loop");
 							break;
 						}
@@ -149,27 +149,13 @@ public class cihw1 extends Application {
 		primaryStage.show();
 
 	}
-
-	public void drawPath(Canvas canvasPane, Circle car) {
-		Circle path = new Circle();
-		path.setCenterX(car.getCenterX());
-		path.setCenterY(car.getCenterY());
-		path.setRadius(3);
-		path.setStroke(Color.BLACK);
-		path.setFill(Color.BLACK);
-
-		canvasPane.getChildren().add(path);
-	}
-
-	public void tuneCar(Circle car) {
-		// car.setCenterX(car.getCenterX()-count * 1);
-		car.setCenterY(car.getCenterY() - count * 1);
-		// line1Dist.setText("dist : "+car.getCenterX());
-		// line2Dist.setText("dist : "+car.getCenterX());
-		// line3Dist.setText("dist : "+car.getCenterX());
+	public void printCurrentThread(){
+		System.out.println("************************");
+		System.out.println(Thread.currentThread());
+		System.out.println("************************");
 
 	}
-
+	
 	public static void main(String[] args) {
 		launch(args);
 	}

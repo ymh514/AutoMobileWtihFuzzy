@@ -13,9 +13,21 @@ public class Car extends Circle {
 		this.setRadius(3 * ratio);
 		this.setStroke(Color.RED);
 		this.setFill(Color.TRANSPARENT);
-
+		this.setStrokeWidth(2);
 	}
-	public Car getCar(){
-		return this;
+
+	public void tuneCar(Canvas canvasPane){
+		// car.setCenterX(car.getCenterX()-count * 1);
+		this.setCenterY(this.getCenterY() -  3);
+		Circle path = new Circle();
+		path.setCenterX(this.getCenterX());
+		path.setCenterY(this.getCenterY());
+		path.setRadius(3);
+		path.setStroke(Color.BLACK);
+		path.setFill(Color.BLACK);
+
+		canvasPane.getChildren().add(path);
+
+
 	}
 }
