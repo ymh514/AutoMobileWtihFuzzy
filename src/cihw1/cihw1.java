@@ -65,7 +65,7 @@ public class cihw1 extends Application {
 
 
 		canvasPane = new Canvas();
-		car = new Car();
+		car = new Car(this.canvasPane);
 
 		ciPane.setRight(canvasPane);
 		ciPane.setLeft(infoBox);
@@ -135,8 +135,9 @@ public class cihw1 extends Application {
 		System.out.println(Thread.currentThread());
 
 		
-		System.out.println(car.getCenterX());
+		
 		canvasPane.setOnMousePressed(e ->{
+			// boundary setting
 			double pressX = e.getX();
 			double pressY = e.getY();
 
@@ -183,21 +184,25 @@ public class cihw1 extends Application {
 									
 //									printCurrentThread();
 									
-									car.tuneCar(canvasPane,count);
-									System.out.println("sensor1 x :"+car.sensor1.getCordX() + "sensor1 y : "+car.sensor1.getCordY());
-									System.out.println("sensor2 x :"+car.sensor2.getCordX() + "sensor2 y : "+car.sensor2.getCordY());
-									System.out.println("sensor3 x :"+car.sensor3.getCordX() + "sensor3 y : "+car.sensor3.getCordY());
+									car.tuneCar(canvasPane);
+									
+									// debug sensor position
+//									System.out.println("sensor1 x :"+car.sensor1.getCordX() + "sensor1 y : "+car.sensor1.getCordY());
+//									System.out.println("sensor2 x :"+car.sensor2.getCordX() + "sensor2 y : "+car.sensor2.getCordY());
+//									System.out.println("sensor3 x :"+car.sensor3.getCordX() + "sensor3 y : "+car.sensor3.getCordY());
 
-									sensorLine1.setEndX(car.sensor1.getCordX());
-									sensorLine1.setEndY(car.sensor1.getCordY());
-									sensorLine2.setEndX(car.sensor2.getCordX());
-									sensorLine2.setEndY(car.sensor2.getCordY());
-									sensorLine3.setEndX(car.sensor3.getCordX());
-									sensorLine3.setEndY(car.sensor3.getCordY());
+									// tune sensor lines
+									sensorLine1.setEndX(car.sensor1.getX());
+									sensorLine1.setEndY(car.sensor1.getY());
+									sensorLine2.setEndX(car.sensor2.getX());
+									sensorLine2.setEndY(car.sensor2.getY());
+									sensorLine3.setEndX(car.sensor3.getX());
+									sensorLine3.setEndY(car.sensor3.getY());
 
-									line1Dist.setText("dist : "+car.getCenterY());
-									line2Dist.setText("dist : "+car.getCenterY());
-									line3Dist.setText("dist : "+car.getCenterY());
+									// fake distance showing label
+									line1Dist.setText(car.sensor1.getDist(canvasPane));
+									line2Dist.setText(car.sensor2.getDist(canvasPane));
+									line3Dist.setText(car.sensor3.getDist(canvasPane));
 
 								}
 							});
@@ -207,7 +212,7 @@ public class cihw1 extends Application {
 							e.printStackTrace();
 						}
 
-						if (count > 5) {
+						if (count > 1) {
 							System.out.println("break loop");
 							break;
 						}
@@ -216,7 +221,8 @@ public class cihw1 extends Application {
 			}.start();
 			System.out.println("action done .");
 		});
-
+		
+		
 		Scene primaryScene = new Scene(ciPane);
 		primaryStage.setScene(primaryScene);
 		primaryStage.setResizable(false);
