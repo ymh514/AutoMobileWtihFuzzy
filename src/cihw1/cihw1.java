@@ -103,28 +103,34 @@ public class cihw1 extends Application {
 		infoBox.setPadding(new Insets(15, 15, 15, 15));
 		infoBox.getChildren().addAll(start, line1Dist, line2Dist, line3Dist);
 
-		Line sensor1 = new Line();
-		sensor1.setStartX(car.getCenterX());
-		sensor1.setStartY(car.getCenterY());
-		sensor1.endXProperty().bind(car.centerXProperty());
-		sensor1.endYProperty().bind(car.centerYProperty().subtract(3*ratio));
-		sensor1.setStroke(Color.RED);
+		Line sensorLine1 = new Line();
+		sensorLine1.setStartX(car.getCenterX());
+		sensorLine1.setStartY(car.getCenterY());
+		sensorLine1.setEndX(car.getCenterX());
+		sensorLine1.setEndY(car.getCenterY());
+		sensorLine1.startXProperty().bind(car.centerXProperty());
+		sensorLine1.startYProperty().bind(car.centerYProperty());
+		sensorLine1.setStroke(Color.RED);
 
-		Line sensor2 = new Line();
-		sensor2.startXProperty().bind(car.centerXProperty());
-		sensor2.startYProperty().bind(car.centerYProperty());
-		sensor2.endXProperty().bind(car.centerXProperty().add((3*ratio)*Math.cos(Math.toRadians(45))));
-		sensor2.endYProperty().bind(car.centerYProperty().subtract((3*ratio)*Math.cos(Math.toRadians(45))));
-		sensor2.setStroke(Color.BLUE);
+		Line sensorLine2 = new Line();
+		sensorLine2.setStartX(car.getCenterX());
+		sensorLine2.setStartY(car.getCenterY());
+		sensorLine2.setEndX(car.getCenterX());
+		sensorLine2.setEndY(car.getCenterY());
+		sensorLine2.startXProperty().bind(car.centerXProperty());
+		sensorLine2.startYProperty().bind(car.centerYProperty());
+		sensorLine2.setStroke(Color.BLUE);
 
-		Line sensor3 = new Line();
-		sensor3.startXProperty().bind(car.centerXProperty());
-		sensor3.startYProperty().bind(car.centerYProperty());
-		sensor3.endXProperty().bind(car.centerXProperty().subtract((3*ratio)*Math.cos(Math.toRadians(45))));
-		sensor3.endYProperty().bind(car.centerYProperty().subtract((3*ratio)*Math.cos(Math.toRadians(45))));
-		sensor3.setStroke(Color.GREEN);
+		Line sensorLine3 = new Line();
+		sensorLine3.setStartX(car.getCenterX());
+		sensorLine3.setStartY(car.getCenterY());
+		sensorLine3.setEndX(car.getCenterX());
+		sensorLine3.setEndY(car.getCenterY());
+		sensorLine3.startXProperty().bind(car.centerXProperty());
+		sensorLine3.startYProperty().bind(car.centerYProperty());
+		sensorLine3.setStroke(Color.GREEN);
 
-		canvasPane.getChildren().addAll(sensor1, sensor2, sensor3);
+		canvasPane.getChildren().addAll(sensorLine1, sensorLine2, sensorLine3);
 
 		System.out.println(Thread.currentThread());
 
@@ -177,12 +183,21 @@ public class cihw1 extends Application {
 									
 //									printCurrentThread();
 									
-									car.tuneCar(canvasPane);
+									car.tuneCar(canvasPane,count);
+									System.out.println("sensor1 x :"+car.sensor1.getCordX() + "sensor1 y : "+car.sensor1.getCordY());
+									System.out.println("sensor2 x :"+car.sensor2.getCordX() + "sensor2 y : "+car.sensor2.getCordY());
+									System.out.println("sensor3 x :"+car.sensor3.getCordX() + "sensor3 y : "+car.sensor3.getCordY());
+
+									sensorLine1.setEndX(car.sensor1.getCordX());
+									sensorLine1.setEndY(car.sensor1.getCordY());
+									sensorLine2.setEndX(car.sensor2.getCordX());
+									sensorLine2.setEndY(car.sensor2.getCordY());
+									sensorLine3.setEndX(car.sensor3.getCordX());
+									sensorLine3.setEndY(car.sensor3.getCordY());
 
 									line1Dist.setText("dist : "+car.getCenterY());
 									line2Dist.setText("dist : "+car.getCenterY());
 									line3Dist.setText("dist : "+car.getCenterY());
-									System.out.println(car.getRotate());
 
 								}
 							});
@@ -192,7 +207,7 @@ public class cihw1 extends Application {
 							e.printStackTrace();
 						}
 
-						if (count > 30) {
+						if (count > 5) {
 							System.out.println("break loop");
 							break;
 						}
