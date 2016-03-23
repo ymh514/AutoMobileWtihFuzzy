@@ -17,6 +17,7 @@ public class Canvas extends Pane{
 	protected Line line5;
 	protected Line line6;
 	protected Line line7;
+	protected Line line8;
 
 	public Canvas(){
 		
@@ -89,6 +90,15 @@ public class Canvas extends Pane{
 		line7.setStroke(Color.BLUE);
 		line7.setStrokeWidth(2);
 		this.getChildren().add(line7);
+		
+		line8 = new Line();
+		line8.setStartX(48 * ratio);
+		line8.setStartY(15 * ratio);
+		line8.setEndX(60 * ratio);
+		line8.setEndY(15 * ratio);
+		line8.setStroke(Color.BLUE);
+		line8.setStrokeWidth(2);
+		this.getChildren().add(line8);
 
 
 	}
