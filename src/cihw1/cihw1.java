@@ -35,6 +35,7 @@ public class cihw1 extends Application {
 	private Label line2Dist = new Label("Line 2 distance");
 	private Label line3Dist = new Label("Line 3 distance");
 
+	
 	public class roadRec extends Rectangle{
 		private double width;
 		private double height;
@@ -54,6 +55,12 @@ public class cihw1 extends Application {
 
 	}
 	
+	private roadRec roadRec1;
+	private roadRec roadRec2;
+	private roadRec roadRec3;
+	private roadRec roadRec4;
+	private roadRec roadRec5;
+
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		// TODO Auto-generated method stub
@@ -72,32 +79,7 @@ public class cihw1 extends Application {
 
 		canvasPane.getChildren().add(car);
 		
-		roadRec roadRec1 =  new roadRec(12*ratio,22*ratio);
-		roadRec1.setStroke(Color.BLACK);
-		roadRec1.setFill(Color.GAINSBORO);
-		roadRec1.setDisable(true);
-		roadRec1.setLayoutX(24*ratio);
-		roadRec1.setLayoutY(30*ratio);
-		roadRec1.setVisible(false);
-		canvasPane.getChildren().add(roadRec1);
-		
-		roadRec roadRec2 =  new roadRec(12*ratio,12*ratio);
-		roadRec2.setStroke(Color.BLACK);
-		roadRec2.setFill(Color.GAINSBORO);
-		roadRec2.setDisable(true);
-		roadRec2.setLayoutX(36*ratio);
-		roadRec2.setLayoutY(30*ratio);
-		roadRec2.setVisible(false);
-		canvasPane.getChildren().add(roadRec2);
-
-		roadRec roadRec3 =  new roadRec(12*ratio,27*ratio);
-		roadRec3.setStroke(Color.BLACK);
-		roadRec3.setFill(Color.GAINSBORO);
-		roadRec3.setDisable(true);
-		roadRec3.setLayoutX(48*ratio);
-		roadRec3.setLayoutY(15*ratio);
-		roadRec3.setVisible(false);
-		canvasPane.getChildren().add(roadRec3);
+		setRoadRec();
 
 		
 		infoBox.setPadding(new Insets(15, 15, 15, 15));
@@ -144,6 +126,9 @@ public class cihw1 extends Application {
 			Point2D[] rec1Points = roadRec1.getBoundary();
             Point2D[] rec2Points = roadRec2.getBoundary();
             Point2D[] rec3Points = roadRec3.getBoundary();
+            Point2D[] rec4Points = roadRec4.getBoundary();
+            Point2D[] rec5Points = roadRec5.getBoundary();
+            
 
             
             if(pressX >rec1Points[0].getX() && pressX < rec1Points[1].getX() && pressY > rec1Points[0].getY() && pressY < rec1Points[1].getY()){
@@ -155,8 +140,14 @@ public class cihw1 extends Application {
             else if(pressX >rec3Points[0].getX() && pressX < rec3Points[1].getX() && pressY > rec3Points[0].getY() && pressY < rec3Points[1].getY()){
             	System.out.println("in Rect 3");
             }
+            else if(pressX >rec4Points[0].getX() && pressX < rec4Points[1].getX() && pressY > rec4Points[0].getY() && pressY < rec4Points[1].getY()){
+            	System.out.println("in Rect 4");
+            }
+            else if(pressX >rec5Points[0].getX() && pressX < rec5Points[1].getX() && pressY > rec5Points[0].getY() && pressY < rec5Points[1].getY()){
+            	System.out.println("in Rect 5");
+            }
             else{
-            	System.out.println("*******");
+            	System.out.println("Out of road ");
             }
 		});
 		
@@ -204,6 +195,7 @@ public class cihw1 extends Application {
 									line2Dist.setText(car.sensor2.getDist(canvasPane));
 									line3Dist.setText(car.sensor3.getDist(canvasPane));
 
+									printCarPosition(car.getCenterX(), car.getCenterY());
 								}
 							});
 							
@@ -212,7 +204,7 @@ public class cihw1 extends Application {
 							e.printStackTrace();
 						}
 
-						if (count > 1) {
+						if (count > 60) {
 							System.out.println("break loop");
 							break;
 						}
@@ -234,6 +226,85 @@ public class cihw1 extends Application {
 		System.out.println(Thread.currentThread());
 		System.out.println("************************");
 
+	}
+	public void setRoadRec(){
+		roadRec1 =  new roadRec(12*ratio,10*ratio);
+		roadRec1.setStroke(Color.BLACK);
+		roadRec1.setFill(Color.GAINSBORO);
+		roadRec1.setDisable(true);
+		roadRec1.setLayoutX(24*ratio);
+		roadRec1.setLayoutY(42*ratio);
+		roadRec1.setVisible(false);
+		canvasPane.getChildren().add(roadRec1);
+		
+		roadRec2 =  new roadRec(12*ratio,12*ratio);
+		roadRec2.setStroke(Color.BLACK);
+		roadRec2.setFill(Color.GAINSBORO);
+		roadRec2.setDisable(true);
+		roadRec2.setLayoutX(24*ratio);
+		roadRec2.setLayoutY(30*ratio);
+		roadRec2.setVisible(false);
+		canvasPane.getChildren().add(roadRec2);
+
+		roadRec3 =  new roadRec(12*ratio,12*ratio);
+		roadRec3.setStroke(Color.BLACK);
+		roadRec3.setFill(Color.GAINSBORO);
+		roadRec3.setDisable(true);
+		roadRec3.setLayoutX(36*ratio);
+		roadRec3.setLayoutY(30*ratio);
+		roadRec3.setVisible(false);
+		canvasPane.getChildren().add(roadRec3);
+
+		roadRec4 =  new roadRec(12*ratio,12*ratio);
+		roadRec4.setStroke(Color.BLACK);
+		roadRec4.setFill(Color.GAINSBORO);
+		roadRec4.setDisable(true);
+		roadRec4.setLayoutX(48*ratio);
+		roadRec4.setLayoutY(30*ratio);
+		roadRec4.setVisible(false);
+		canvasPane.getChildren().add(roadRec4);
+
+		roadRec5 =  new roadRec(12*ratio,15*ratio);
+		roadRec5.setStroke(Color.BLACK);
+		roadRec5.setFill(Color.GAINSBORO);
+		roadRec5.setDisable(true);
+		roadRec5.setLayoutX(48*ratio);
+		roadRec5.setLayoutY(15*ratio);
+		roadRec5.setVisible(false);
+		canvasPane.getChildren().add(roadRec5);
+	}
+	
+	public void printCarPosition(double x,double y){
+		// boundary setting
+		double pressX = x;
+		double pressY = y;
+
+		Point2D[] rec1Points = roadRec1.getBoundary();
+        Point2D[] rec2Points = roadRec2.getBoundary();
+        Point2D[] rec3Points = roadRec3.getBoundary();
+        Point2D[] rec4Points = roadRec4.getBoundary();
+        Point2D[] rec5Points = roadRec5.getBoundary();
+        
+
+        
+        if(pressX >rec1Points[0].getX() && pressX < rec1Points[1].getX() && pressY > rec1Points[0].getY() && pressY < rec1Points[1].getY()){
+        	System.out.println("in Rect 1");
+        }
+        else if(pressX >rec2Points[0].getX() && pressX < rec2Points[1].getX() && pressY > rec2Points[0].getY() && pressY < rec2Points[1].getY()){
+        	System.out.println("in Rect 2");
+        }
+        else if(pressX >rec3Points[0].getX() && pressX < rec3Points[1].getX() && pressY > rec3Points[0].getY() && pressY < rec3Points[1].getY()){
+        	System.out.println("in Rect 3");
+        }
+        else if(pressX >rec4Points[0].getX() && pressX < rec4Points[1].getX() && pressY > rec4Points[0].getY() && pressY < rec4Points[1].getY()){
+        	System.out.println("in Rect 4");
+        }
+        else if(pressX >rec5Points[0].getX() && pressX < rec5Points[1].getX() && pressY > rec5Points[0].getY() && pressY < rec5Points[1].getY()){
+        	System.out.println("in Rect 5");
+        }
+        else{
+        	System.out.println("Out of road ");
+        }
 	}
 	
 	public static void main(String[] args) {

@@ -110,7 +110,11 @@ public class Car extends Circle {
 //				System.out.println("with line"+(i+1)+" distance : "+tempDist[i]);
 			}
 //			System.out.println("Line"+smallestId+" is the closest and dist is : "+smallestDist);
-			String distInfo = "Line"+smallestId+" is the closest and dist is : "+smallestDist;
+			
+			// consider ratio
+//			String distInfo = "Line"+smallestId+" , distance : "+(Math.round(smallestDist/ratio*1000.0)/1000.0);
+			String distInfo = "Line"+smallestId+" , distance : "+(Math.round(smallestDist*1000.0)/1000.0);
+
 			return distInfo;
 	    }
 	}
