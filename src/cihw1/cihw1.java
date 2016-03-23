@@ -3,6 +3,7 @@ package cihw1;
 import java.util.Currency;
 
 import cihw1.Canvas;
+import cihw1.Car.Sensor;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
@@ -34,7 +35,7 @@ public class cihw1 extends Application {
 	private Label line1Dist = new Label("Line 1 distance");
 	private Label line2Dist = new Label("Line 2 distance");
 	private Label line3Dist = new Label("Line 3 distance");
-
+	private int roadFlag = 0;
 	
 	public class roadRec extends Rectangle{
 		private double width;
@@ -117,40 +118,6 @@ public class cihw1 extends Application {
 		System.out.println(Thread.currentThread());
 
 		
-		
-		canvasPane.setOnMousePressed(e ->{
-			// boundary setting
-			double pressX = e.getX();
-			double pressY = e.getY();
-
-			Point2D[] rec1Points = roadRec1.getBoundary();
-            Point2D[] rec2Points = roadRec2.getBoundary();
-            Point2D[] rec3Points = roadRec3.getBoundary();
-            Point2D[] rec4Points = roadRec4.getBoundary();
-            Point2D[] rec5Points = roadRec5.getBoundary();
-            
-
-            
-            if(pressX >rec1Points[0].getX() && pressX < rec1Points[1].getX() && pressY > rec1Points[0].getY() && pressY < rec1Points[1].getY()){
-            	System.out.println("in Rect 1");
-            }
-            else if(pressX >rec2Points[0].getX() && pressX < rec2Points[1].getX() && pressY > rec2Points[0].getY() && pressY < rec2Points[1].getY()){
-            	System.out.println("in Rect 2");
-            }
-            else if(pressX >rec3Points[0].getX() && pressX < rec3Points[1].getX() && pressY > rec3Points[0].getY() && pressY < rec3Points[1].getY()){
-            	System.out.println("in Rect 3");
-            }
-            else if(pressX >rec4Points[0].getX() && pressX < rec4Points[1].getX() && pressY > rec4Points[0].getY() && pressY < rec4Points[1].getY()){
-            	System.out.println("in Rect 4");
-            }
-            else if(pressX >rec5Points[0].getX() && pressX < rec5Points[1].getX() && pressY > rec5Points[0].getY() && pressY < rec5Points[1].getY()){
-            	System.out.println("in Rect 5");
-            }
-            else{
-            	System.out.println("Out of road ");
-            }
-		});
-		
 		start.setOnMouseClicked(evnet -> {
 
 			System.out.println(car.getCenterX());
@@ -166,7 +133,7 @@ public class cihw1 extends Application {
 						
 						try {
 //							System.out.println("sleep");
-							Thread.sleep(100);
+							Thread.sleep(300);
 							
 							Platform.runLater(new Runnable() {
 								//GUI update by javafx thread
@@ -174,28 +141,50 @@ public class cihw1 extends Application {
 								public void run() {
 									
 //									printCurrentThread();
-									
 									car.tuneCar(canvasPane);
-									
+									carPosition(car.getCenterX(),car.getCenterY());
 									// debug sensor position
 //									System.out.println("sensor1 x :"+car.sensor1.getCordX() + "sensor1 y : "+car.sensor1.getCordY());
 //									System.out.println("sensor2 x :"+car.sensor2.getCordX() + "sensor2 y : "+car.sensor2.getCordY());
 //									System.out.println("sensor3 x :"+car.sensor3.getCordX() + "sensor3 y : "+car.sensor3.getCordY());
 
-									// tune sensor lines
-									sensorLine1.setEndX(car.sensor1.getX());
-									sensorLine1.setEndY(car.sensor1.getY());
-									sensorLine2.setEndX(car.sensor2.getX());
-									sensorLine2.setEndY(car.sensor2.getY());
-									sensorLine3.setEndX(car.sensor3.getX());
-									sensorLine3.setEndY(car.sensor3.getY());
 
 									// fake distance showing label
-									line1Dist.setText(car.sensor1.getDist(canvasPane));
-									line2Dist.setText(car.sensor2.getDist(canvasPane));
-									line3Dist.setText(car.sensor3.getDist(canvasPane));
+									if(roadFlag == 1){
+										car.sensor1.calDistanceRec1(canvasPane);
+										car.sensor2.calDistanceRec1(canvasPane);
+										car.sensor3.calDistanceRec1(canvasPane);
+									}
+									else if(roadFlag == 2){
+										car.sensor1.calDistanceRec2(canvasPane);
+										car.sensor2.calDistanceRec2(canvasPane);
+										car.sensor3.calDistanceRec2(canvasPane);
 
-									printCarPosition(car.getCenterX(), car.getCenterY());
+									}
+									
+									line1Dist.setText(car.sensor1.getDist());
+									line2Dist.setText(car.sensor2.getDist());
+									line3Dist.setText(car.sensor3.getDist());
+
+									int line1c = car.sensor1.closestLineId;
+									int line2c = car.sensor2.closestLineId;
+									int line3c = car.sensor3.closestLineId;
+
+									// tune sensor lines
+
+									sensorLine1.setEndX(car.sensor1.lineIntersection[line1c].getX());
+									sensorLine1.setEndY(car.sensor1.lineIntersection[line1c].getY());
+									sensorLine2.setEndX(car.sensor2.lineIntersection[line2c].getX());
+									sensorLine2.setEndY(car.sensor2.lineIntersection[line2c].getY());
+									sensorLine3.setEndX(car.sensor3.lineIntersection[line3c].getX());
+									sensorLine3.setEndY(car.sensor3.lineIntersection[line3c].getY());
+
+//									sensorLine2.setEndX(car.sensor2.lineIntersection[line2c].getX()-(3*ratio*Math.cos(Math.toRadians(45))));
+//									sensorLine2.setEndY(car.sensor2.lineIntersection[line2c].getY()-(3*ratio*Math.cos(Math.toRadians(45))));
+//									sensorLine3.setEndX(car.sensor3.lineIntersection[line3c].getX()+(3*ratio*Math.cos(Math.toRadians(45))));
+//									sensorLine3.setEndY(car.sensor3.lineIntersection[line3c].getY()-(3*ratio*Math.cos(Math.toRadians(45))));
+
+//									printCarPosition(car.getCenterX(), car.getCenterY());
 								}
 							});
 							
@@ -204,7 +193,7 @@ public class cihw1 extends Application {
 							e.printStackTrace();
 						}
 
-						if (count > 60) {
+						if (count > 45) {
 							System.out.println("break loop");
 							break;
 						}
@@ -274,7 +263,7 @@ public class cihw1 extends Application {
 		canvasPane.getChildren().add(roadRec5);
 	}
 	
-	public void printCarPosition(double x,double y){
+	public void carPosition(double x,double y){
 		// boundary setting
 		double pressX = x;
 		double pressY = y;
@@ -288,21 +277,27 @@ public class cihw1 extends Application {
 
         
         if(pressX >rec1Points[0].getX() && pressX < rec1Points[1].getX() && pressY > rec1Points[0].getY() && pressY < rec1Points[1].getY()){
-        	System.out.println("in Rect 1");
+//        	System.out.println("in Rect 1");
+        	roadFlag = 1;
         }
         else if(pressX >rec2Points[0].getX() && pressX < rec2Points[1].getX() && pressY > rec2Points[0].getY() && pressY < rec2Points[1].getY()){
-        	System.out.println("in Rect 2");
+//        	System.out.println("in Rect 2");
+        	roadFlag = 2;
         }
         else if(pressX >rec3Points[0].getX() && pressX < rec3Points[1].getX() && pressY > rec3Points[0].getY() && pressY < rec3Points[1].getY()){
-        	System.out.println("in Rect 3");
+//        	System.out.println("in Rect 3");
+        	roadFlag = 3;
         }
         else if(pressX >rec4Points[0].getX() && pressX < rec4Points[1].getX() && pressY > rec4Points[0].getY() && pressY < rec4Points[1].getY()){
-        	System.out.println("in Rect 4");
+//        	System.out.println("in Rect 4");
+        	roadFlag = 4;
         }
         else if(pressX >rec5Points[0].getX() && pressX < rec5Points[1].getX() && pressY > rec5Points[0].getY() && pressY < rec5Points[1].getY()){
-        	System.out.println("in Rect 5");
+//        	System.out.println("in Rect 5");
+        	roadFlag = 5;
         }
         else{
+        	roadFlag = 0;
         	System.out.println("Out of road ");
         }
 	}
