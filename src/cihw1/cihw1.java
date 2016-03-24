@@ -137,7 +137,7 @@ public class cihw1 extends Application {
 						
 						try {
 //							System.out.println("sleep");
-							Thread.sleep(500);
+							Thread.sleep(200);
 							
 							Platform.runLater(new Runnable() {
 								//GUI update by javafx thread
