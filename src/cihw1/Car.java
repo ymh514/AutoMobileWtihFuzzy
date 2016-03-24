@@ -12,7 +12,7 @@ public class Car extends Circle {
 	private int ratio = 10;
 	private Canvas canvasPane;
 	protected double angle = 90;
-	protected double turnAngle = 5;
+	protected double turnAngle = 40;
 	protected Sensor sensor1;
 	protected Sensor sensor2;
 	protected Sensor sensor3;
