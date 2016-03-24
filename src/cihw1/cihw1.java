@@ -219,7 +219,7 @@ public class cihw1 extends Application {
 							e.printStackTrace();
 						}
 
-						if (count > 50) {
+						if (count > 4) {
 							System.out.println("break loop");
 							break;
 						}
