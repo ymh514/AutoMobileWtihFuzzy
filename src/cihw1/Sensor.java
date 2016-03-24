@@ -13,17 +13,19 @@ public class Sensor {
 	protected double y;
 	protected int closestLineId;
 	protected double closestLineDist;
-	protected Point2D[] lineIntersection = new Point2D[7];
+	protected Point2D[] lineIntersection = new Point2D[8];
 	protected double lineFunA;
 	protected double lineFunB;
 	protected double verticalA;
 	protected double verticalB;
+	protected String name;
 
-	public Sensor(double x, double y, double carX, double carY) {
+	public Sensor(double x, double y, double carX, double carY,String name) {
 		this.x = x;
 		this.y = y;
 		this.carX = carX;
 		this.carY = carY;
+		this.name = name;
 		// TODO Auto-generated constructor stub
 	}
 
@@ -62,8 +64,7 @@ public class Sensor {
 		
 		
 		
-		lineIntersection[i] = new Point2D(intersectionX, intersectionY);
-
+//		lineIntersection[i] = new Point2D(intersectionX, intersectionY);
 //		if(checkPositiveSide(intersectionX, intersectionY)>0){
 //			double a = this.x - intersectionX;
 //			double b = this.y - intersectionY;
@@ -74,7 +75,19 @@ public class Sensor {
 //			tempDist[i] = Double.MAX_VALUE;
 //
 //		}
-		
+//		if(checkLineRange(x3,x4,y3,y4,intersectionX,intersectionY) > 0){
+//			double a = this.x - intersectionX;
+//			double b = this.y - intersectionY;
+//			tempDist[i] = Math.sqrt(a * a + b * b);
+//			lineIntersection[i] = new Point2D(intersectionX, intersectionY);
+//
+//		}
+//		else{
+//			tempDist[i] = Double.MAX_VALUE;
+//			lineIntersection[i] = new Point2D(Double.NaN,Double.NaN );
+//
+//		}
+
 		if(checkPositiveSide(intersectionX, intersectionY)>0){
 			if(checkLineRange(x3,x4,y3,y4,intersectionX,intersectionY) > 0){
 				double a = this.x - intersectionX;
@@ -85,15 +98,26 @@ public class Sensor {
 			}
 			else{
 				tempDist[i] = Double.MAX_VALUE;
-				lineIntersection[i] = new Point2D(Double.MAX_VALUE,Double.MAX_VALUE );
+				lineIntersection[i] = new Point2D(Double.NaN,Double.NaN );
 
 			}
 		}
 		else{
 			tempDist[i] = Double.MAX_VALUE;
-			lineIntersection[i] = new Point2D(Double.MAX_VALUE, Double.MAX_VALUE);
+			lineIntersection[i] = new Point2D(Double.NaN, Double.NaN);
 
 		}
+//		int count = 0;
+//		for(int j = 0;j<lineIntersection.length;j++){
+//			if(lineIntersection[j].getX() == Double.NaN && lineIntersection[j].getY() == Double.NaN){
+//				count++;
+//			}
+//		}
+//		if(count == 7){
+//			lineIntersection[i] = new Point2D(intersectionX, intersectionY);
+//
+//		}
+		
 	}
 	public int checkLineRange(double lineSX,double lineEX ,double lineSY,double lineEY ,double x,double y){
 		
@@ -117,14 +141,39 @@ public class Sensor {
 	}
 
 	public int checkPositiveSide(double x, double y) {
-		double ans = verticalA * x - y + verticalB;
-		if (ans > 0) {
-			return 1;
-		} else if (ans < 0) {
-			return -1;
-		} else {
-			return 1;
+		if(verticalA >= 0){
+			double ans = verticalA * x - y + verticalB;
+			if (ans > 0) {
+				return 1;
+			} else if (ans < 0) {
+				return -1;
+			} else {
+				return 1;
+			}
+
 		}
+		//weired > < can chage to debug
+		else{
+			double ans = -verticalA * x + y - verticalB;
+			if (ans < 0) {
+				return 1;
+			} else if (ans > 0) {
+				return -1;
+			} else {
+				return 1;
+			}
+
+		}
+		
+//		double ans = verticalA * x - y + verticalB;
+//		if (ans > 0) {
+//			return 1;
+//		} else if (ans < 0) {
+//			return -1;
+//		} else {
+//			return 1;
+//		}
+
 	}
 
 	public void calDistance(Canvas canvasPane, int roadFlag) {
@@ -133,7 +182,7 @@ public class Sensor {
 		lineFunB = (this.carX * this.getY() - this.getX() * this.carY) / (this.carX - this.getX());
 		// System.out.println("line function : y=" + lineFunA + "x + " +
 		// lineFunB);
-		verticalA = -1 * (1 / lineFunA);
+		verticalA = -1 / lineFunA;
 		verticalB = this.carY - this.carX * verticalA;
 		// System.out.println("vertical line function : y=" + verticalA + "x + "
 		// + verticalB);
@@ -146,13 +195,15 @@ public class Sensor {
 		tempLine.add(canvasPane.line5);
 		tempLine.add(canvasPane.line6);
 		tempLine.add(canvasPane.line7);
+		tempLine.add(canvasPane.line8);
 
-		double[] tempDist = new double[7];
+		double[] tempDist = new double[8];
 		// all line
+
 
 		if (roadFlag == 1) {
 			for (int i = 0; i < tempLine.size(); i++) {
-				if (i == 4 || i == 5 ) {
+				if (i == 4 || i == 5 || i==7) {
 					tempDist[i] = Double.MAX_VALUE;
 				} else {
 					findIntersection(tempLine, tempDist, i);
@@ -160,7 +211,7 @@ public class Sensor {
 			}
 		} else if (roadFlag == 2) {
 			for (int i = 0; i < tempLine.size(); i++) {
-				if (i == 5 || i == 2) {
+				if (i == 5) {
 					tempDist[i] = Double.MAX_VALUE;
 
 				} else {
@@ -169,7 +220,7 @@ public class Sensor {
 			}
 		} else if (roadFlag == 3) {
 			for (int i = 0; i < tempLine.size(); i++) {
-				if (i == 1 || i == 2 || i==5) {
+				if (i==0 || i == 2 || i==5 || i==7) {
 					tempDist[i] = Double.MAX_VALUE;
 
 				} else {
@@ -179,7 +230,7 @@ public class Sensor {
 
 		} else if (roadFlag == 4) {
 			for (int i = 0; i < tempLine.size(); i++) {
-				if (i == 1 || i == 2) {
+				if (i == 0 || i == 2) {
 					tempDist[i] = Double.MAX_VALUE;
 
 				} else {
@@ -189,7 +240,7 @@ public class Sensor {
 
 		} else if (roadFlag == 5) {
 			for (int i = 0; i < tempLine.size(); i++) {
-				if (i == 1 || i == 2) {
+				if (i==0 || i == 1 || i == 2 || i==3) {
 					tempDist[i] = Double.MAX_VALUE;
 
 				} else {
@@ -207,14 +258,19 @@ public class Sensor {
 				smallestId = i;
 			}
 		}
-		if(smallestId == 0){
-			System.out.println("find wrong line :"+smallestId );
-			for(int i=1;i<tempDist.length;i++){
-				System.out.println(tempDist[i]);
-			}
-
+//		if(smallestId == 0){
+//			System.out.println("find wrong line :"+smallestId );
+//			for(int i=1;i<tempDist.length;i++){
+//				System.out.println(tempDist[i]);
+//			}
+//
+//		}
+		System.out.println(this.name);
+		for(int i=0;i< tempDist.length;i++){
+			System.out.println(tempDist[i]);
 		}
-
+		System.out.println(" ");
+		
 		closestLineId = smallestId;
 		closestLineDist = smallestDist;
 

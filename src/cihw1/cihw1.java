@@ -34,6 +34,9 @@ public class cihw1 extends Application {
 
 	private Label line1Dist = new Label("Line 1 distance");
 	private Label line2Dist = new Label("Line 2 distance");
+	/**
+	 * 
+	 */
 	private Label line3Dist = new Label("Line 3 distance");
 	private Label angleInfo = new Label("");
 	private int roadFlag = 0;
@@ -134,7 +137,7 @@ public class cihw1 extends Application {
 						
 						try {
 //							System.out.println("sleep");
-							Thread.sleep(800);
+							Thread.sleep(500);
 							
 							Platform.runLater(new Runnable() {
 								//GUI update by javafx thread
@@ -190,7 +193,7 @@ public class cihw1 extends Application {
 									int line2c = car.sensor2.closestLineId;
 									int line3c = car.sensor3.closestLineId;
 
-									// tune sensor lines
+									// tune sensor lines for debug angle
 //									sensorLine1.setEndX(car.sensor1.getX());
 //									sensorLine1.setEndY(car.sensor1.getY());
 //									sensorLine2.setEndX(car.sensor2.getX());
@@ -219,7 +222,7 @@ public class cihw1 extends Application {
 							e.printStackTrace();
 						}
 
-						if (count > 50) {
+						if (count > 30) {
 							System.out.println("break loop");
 							break;
 						}
