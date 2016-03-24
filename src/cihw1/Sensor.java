@@ -80,7 +80,6 @@ public class Sensor {
 			}
 			else{
 				tempDist[i] = Double.MAX_VALUE;
-
 			}
 
 		}
@@ -235,11 +234,11 @@ public class Sensor {
 //			}
 //
 //		}
-		System.out.println(this.name);
-		for(int i=0;i< tempDist.length;i++){
-			System.out.println(tempDist[i]);
-		}
-		System.out.println(" ");
+//		System.out.println(this.name);
+//		for(int i=0;i< tempDist.length;i++){
+//			System.out.println(tempDist[i]);
+//		}
+//		System.out.println(" ");
 		
 		closestLineId = smallestId;
 		closestLineDist = smallestDist;

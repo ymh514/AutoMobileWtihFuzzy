@@ -27,7 +27,7 @@ public class Car extends Circle {
 		this.setCenterX(startPointX * ratio);
 		this.setCenterY(startPointY * ratio);
 		this.setRadius(3 * ratio);
-		this.setStroke(Color.RED);
+		this.setStroke(Color.INDIANRED);
 		this.setFill(Color.TRANSPARENT);
 		this.setStrokeWidth(2);
 		

@@ -84,8 +84,6 @@ public class cihw1 extends Application {
 
 		canvasPane.getChildren().add(car);
 		
-		setRoadRec();
-
 		
 		infoBox.setPadding(new Insets(15, 15, 15, 15));
 		infoBox.getChildren().addAll(start, line1Dist, line2Dist, line3Dist,angleInfo);
@@ -137,7 +135,7 @@ public class cihw1 extends Application {
 						
 						try {
 //							System.out.println("sleep");
-							Thread.sleep(200);
+							Thread.sleep(100);
 							
 							Platform.runLater(new Runnable() {
 								//GUI update by javafx thread
@@ -146,40 +144,9 @@ public class cihw1 extends Application {
 									
 //									printCurrentThread();
 									car.tuneCar(canvasPane);
-									carPosition(car.getCenterX(),car.getCenterY());
-									// debug sensor position
-//									System.out.println("sensor1 x :"+car.sensor1.getCordX() + "sensor1 y : "+car.sensor1.getCordY());
-//									System.out.println("sensor2 x :"+car.sensor2.getCordX() + "sensor2 y : "+car.sensor2.getCordY());
-//									System.out.println("sensor3 x :"+car.sensor3.getCordX() + "sensor3 y : "+car.sensor3.getCordY());
-
-
-									// fake distance showing label
-									if(roadFlag == 1){
-										car.sensor1.calDistance(canvasPane,roadFlag);
-										car.sensor2.calDistance(canvasPane,roadFlag);
-										car.sensor3.calDistance(canvasPane,roadFlag);
-									}
-									else if(roadFlag == 2){
-										car.sensor1.calDistance(canvasPane,roadFlag);
-										car.sensor2.calDistance(canvasPane,roadFlag);
-										car.sensor3.calDistance(canvasPane,roadFlag);
-									}
-									else if(roadFlag == 3){
-										car.sensor1.calDistance(canvasPane,roadFlag);
-										car.sensor2.calDistance(canvasPane,roadFlag);
-										car.sensor3.calDistance(canvasPane,roadFlag);
-									}
-									else if(roadFlag == 4){
-										car.sensor1.calDistance(canvasPane,roadFlag);
-										car.sensor2.calDistance(canvasPane,roadFlag);
-										car.sensor3.calDistance(canvasPane,roadFlag);
-									}
-									else if(roadFlag == 5){
-										car.sensor1.calDistance(canvasPane,roadFlag);
-										car.sensor2.calDistance(canvasPane,roadFlag);
-										car.sensor3.calDistance(canvasPane,roadFlag);
-									}
-
+									car.sensor1.calDistance(canvasPane,roadFlag);
+									car.sensor2.calDistance(canvasPane,roadFlag);
+									car.sensor3.calDistance(canvasPane,roadFlag);
 									
 									line1Dist.setText(car.sensor1.getDist());
 									line2Dist.setText(car.sensor2.getDist());
@@ -213,7 +180,6 @@ public class cihw1 extends Application {
 //									sensorLine3.setEndX(car.sensor3.lineIntersection[line3c].getX()+(3*ratio*Math.cos(Math.toRadians(45))));
 //									sensorLine3.setEndY(car.sensor3.lineIntersection[line3c].getY()-(3*ratio*Math.cos(Math.toRadians(45))));
 
-//									printCarPosition(car.getCenterX(), car.getCenterY());
 								}
 							});
 							
@@ -222,7 +188,7 @@ public class cihw1 extends Application {
 							e.printStackTrace();
 						}
 
-						if (count > 30) {
+						if (count > 55) {
 							System.out.println("break loop");
 							break;
 						}
@@ -244,91 +210,6 @@ public class cihw1 extends Application {
 		System.out.println(Thread.currentThread());
 		System.out.println("************************");
 
-	}
-	public void setRoadRec(){
-		roadRec1 =  new roadRec(12*ratio,10*ratio);
-		roadRec1.setStroke(Color.BLACK);
-		roadRec1.setFill(Color.GAINSBORO);
-		roadRec1.setDisable(true);
-		roadRec1.setLayoutX(24*ratio);
-		roadRec1.setLayoutY(42*ratio);
-		roadRec1.setVisible(false);
-		canvasPane.getChildren().add(roadRec1);
-		
-		roadRec2 =  new roadRec(12*ratio,12*ratio);
-		roadRec2.setStroke(Color.BLACK);
-		roadRec2.setFill(Color.GAINSBORO);
-		roadRec2.setDisable(true);
-		roadRec2.setLayoutX(24*ratio);
-		roadRec2.setLayoutY(30*ratio);
-		roadRec2.setVisible(false);
-		canvasPane.getChildren().add(roadRec2);
-
-		roadRec3 =  new roadRec(12*ratio,12*ratio);
-		roadRec3.setStroke(Color.BLACK);
-		roadRec3.setFill(Color.GAINSBORO);
-		roadRec3.setDisable(true);
-		roadRec3.setLayoutX(36*ratio);
-		roadRec3.setLayoutY(30*ratio);
-		roadRec3.setVisible(false);
-		canvasPane.getChildren().add(roadRec3);
-
-		roadRec4 =  new roadRec(12*ratio,12*ratio);
-		roadRec4.setStroke(Color.BLACK);
-		roadRec4.setFill(Color.GAINSBORO);
-		roadRec4.setDisable(true);
-		roadRec4.setLayoutX(48*ratio);
-		roadRec4.setLayoutY(30*ratio);
-		roadRec4.setVisible(false);
-		canvasPane.getChildren().add(roadRec4);
-
-		roadRec5 =  new roadRec(12*ratio,15*ratio);
-		roadRec5.setStroke(Color.BLACK);
-		roadRec5.setFill(Color.GAINSBORO);
-		roadRec5.setDisable(true);
-		roadRec5.setLayoutX(48*ratio);
-		roadRec5.setLayoutY(15*ratio);
-		roadRec5.setVisible(false);
-		canvasPane.getChildren().add(roadRec5);
-	}
-	
-	public void carPosition(double x,double y){
-		// boundary setting
-		double pressX = x;
-		double pressY = y;
-
-		Point2D[] rec1Points = roadRec1.getBoundary();
-        Point2D[] rec2Points = roadRec2.getBoundary();
-        Point2D[] rec3Points = roadRec3.getBoundary();
-        Point2D[] rec4Points = roadRec4.getBoundary();
-        Point2D[] rec5Points = roadRec5.getBoundary();
-        
-
-        
-        if(pressX >rec1Points[0].getX() && pressX < rec1Points[1].getX() && pressY > rec1Points[0].getY() && pressY < rec1Points[1].getY()){
-//        	System.out.println("in Rect 1");
-        	roadFlag = 1;
-        }
-        else if(pressX >rec2Points[0].getX() && pressX < rec2Points[1].getX() && pressY > rec2Points[0].getY() && pressY < rec2Points[1].getY()){
-//        	System.out.println("in Rect 2");
-        	roadFlag = 2;
-        }
-        else if(pressX >rec3Points[0].getX() && pressX < rec3Points[1].getX() && pressY > rec3Points[0].getY() && pressY < rec3Points[1].getY()){
-//        	System.out.println("in Rect 3");
-        	roadFlag = 3;
-        }
-        else if(pressX >rec4Points[0].getX() && pressX < rec4Points[1].getX() && pressY > rec4Points[0].getY() && pressY < rec4Points[1].getY()){
-//        	System.out.println("in Rect 4");
-        	roadFlag = 4;
-        }
-        else if(pressX >rec5Points[0].getX() && pressX < rec5Points[1].getX() && pressY > rec5Points[0].getY() && pressY < rec5Points[1].getY()){
-//        	System.out.println("in Rect 5");
-        	roadFlag = 5;
-        }
-        else{
-        	roadFlag = 0;
-//        	System.out.println("Out of road ");
-        }
 	}
 	
 	public static void main(String[] args) {
