@@ -11,6 +11,8 @@ import javafx.concurrent.Task;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Background;
@@ -31,41 +33,12 @@ public class cihw1 extends Application {
 	static int count = 0;
 	private Canvas canvasPane;
 	private Car car;
-
 	private Label line1Dist = new Label("Line 1 distance");
 	private Label line2Dist = new Label("Line 2 distance");
-	/**
-	 * 
-	 */
 	private Label line3Dist = new Label("Line 3 distance");
 	private Label angleInfo = new Label("");
-	private int roadFlag = 0;
-	
-	public class roadRec extends Rectangle{
-		private double width;
-		private double height;
+	private int finalFlag = 0;
 		
-		public roadRec(double width,double height){
-			this.setWidth(width);
-			this.setHeight(height);
-			this.width = width;
-			this.height = height;
-		}
-	    public Point2D[] getBoundary() {
-	        Point2D[] points = new Point2D[2];
-	        points[0] = new Point2D(this.getLayoutX(), this.getLayoutY());
-	        points[1] = new Point2D(this.getLayoutX() + width, this.getLayoutY() + height);
-	        return points;
-	    }
-
-	}
-	
-	private roadRec roadRec1;
-	private roadRec roadRec2;
-	private roadRec roadRec3;
-	private roadRec roadRec4;
-	private roadRec roadRec5;
-
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		// TODO Auto-generated method stub
@@ -85,7 +58,7 @@ public class cihw1 extends Application {
 		canvasPane.getChildren().add(car);
 		
 		
-		infoBox.setPadding(new Insets(15, 15, 15, 15));
+		infoBox.setPadding(new Insets(15, 50, 15, 15));
 		infoBox.getChildren().addAll(start, line1Dist, line2Dist, line3Dist,angleInfo);
 
 		Line sensorLine1 = new Line();
@@ -95,7 +68,7 @@ public class cihw1 extends Application {
 		sensorLine1.setEndY(car.getCenterY());
 		sensorLine1.startXProperty().bind(car.centerXProperty());
 		sensorLine1.startYProperty().bind(car.centerYProperty());
-		sensorLine1.setStroke(Color.RED);
+		sensorLine1.setStroke(Color.DARKRED);
 
 		Line sensorLine2 = new Line();
 		sensorLine2.setStartX(car.getCenterX());
@@ -104,7 +77,7 @@ public class cihw1 extends Application {
 		sensorLine2.setEndY(car.getCenterY());
 		sensorLine2.startXProperty().bind(car.centerXProperty());
 		sensorLine2.startYProperty().bind(car.centerYProperty());
-		sensorLine2.setStroke(Color.BLUE);
+		sensorLine2.setStroke(Color.DARKBLUE);
 
 		Line sensorLine3 = new Line();
 		sensorLine3.setStartX(car.getCenterX());
@@ -113,13 +86,11 @@ public class cihw1 extends Application {
 		sensorLine3.setEndY(car.getCenterY());
 		sensorLine3.startXProperty().bind(car.centerXProperty());
 		sensorLine3.startYProperty().bind(car.centerYProperty());
-		sensorLine3.setStroke(Color.GREEN);
+		sensorLine3.setStroke(Color.DARKGREEN);
 
 		canvasPane.getChildren().addAll(sensorLine1, sensorLine2, sensorLine3);
 
-		System.out.println(Thread.currentThread());
-
-		
+	
 		start.setOnMouseClicked(evnet -> {
 
 			System.out.println(car.getCenterX());
@@ -129,56 +100,52 @@ public class cihw1 extends Application {
 					while (true) {
 						// open thread do something
 						
-//						System.out.println(Thread.currentThread());
-
 						count++;
 						
 						try {
-//							System.out.println("sleep");
-							Thread.sleep(100);
+							Thread.sleep(50);
 							
 							Platform.runLater(new Runnable() {
 								//GUI update by javafx thread
 								@Override
 								public void run() {
-									
-//									printCurrentThread();
-									car.tuneCar(canvasPane);
-									car.sensor1.calDistance(canvasPane,roadFlag);
-									car.sensor2.calDistance(canvasPane,roadFlag);
-									car.sensor3.calDistance(canvasPane,roadFlag);
-									
-									line1Dist.setText(car.sensor1.getDist());
-									line2Dist.setText(car.sensor2.getDist());
-									line3Dist.setText(car.sensor3.getDist());
-									
-									
-									angleInfo.setText("angle :"+Math.round(car.angle*1000.0)/1000.0);
-									
-									
-									int line1c = car.sensor1.closestLineId;
-									int line2c = car.sensor2.closestLineId;
-									int line3c = car.sensor3.closestLineId;
+									if(finalFlag == 1){
+										line1Dist.setText("done");
+										line2Dist.setText("done");
+										line3Dist.setText("done");
+										angleInfo.setText("done");
+										car.tuneCar(canvasPane);
+										sensorLine1.setVisible(false);
+										sensorLine2.setVisible(false);
+										sensorLine3.setVisible(false);
+										Thread.interrupted();
+									}
+									else{
+										car.tuneCar(canvasPane);
+										car.sensor1.calDistance(canvasPane);
+										car.sensor2.calDistance(canvasPane);
+										car.sensor3.calDistance(canvasPane);
+										
+										line1Dist.setText(car.sensor1.getDist());
+										line2Dist.setText(car.sensor2.getDist());
+										line3Dist.setText(car.sensor3.getDist());
+										
+										angleInfo.setText("angle :"+Math.round(car.angle*1000.0)/1000.0);
+										
+										
+										int line1c = car.sensor1.closestLineId;
+										int line2c = car.sensor2.closestLineId;
+										int line3c = car.sensor3.closestLineId;
 
-									// tune sensor lines for debug angle
-//									sensorLine1.setEndX(car.sensor1.getX());
-//									sensorLine1.setEndY(car.sensor1.getY());
-//									sensorLine2.setEndX(car.sensor2.getX());
-//									sensorLine2.setEndY(car.sensor2.getY());
-//									sensorLine3.setEndX(car.sensor3.getX());
-//									sensorLine3.setEndY(car.sensor3.getY());
 
-									sensorLine1.setEndX(car.sensor1.lineIntersection[line1c].getX());
-									sensorLine1.setEndY(car.sensor1.lineIntersection[line1c].getY());
-									sensorLine2.setEndX(car.sensor2.lineIntersection[line2c].getX());
-									sensorLine2.setEndY(car.sensor2.lineIntersection[line2c].getY());
-									sensorLine3.setEndX(car.sensor3.lineIntersection[line3c].getX());
-									sensorLine3.setEndY(car.sensor3.lineIntersection[line3c].getY());
+										sensorLine1.setEndX(car.sensor1.lineIntersection[line1c].getX());
+										sensorLine1.setEndY(car.sensor1.lineIntersection[line1c].getY());
+										sensorLine2.setEndX(car.sensor2.lineIntersection[line2c].getX());
+										sensorLine2.setEndY(car.sensor2.lineIntersection[line2c].getY());
+										sensorLine3.setEndX(car.sensor3.lineIntersection[line3c].getX());
+										sensorLine3.setEndY(car.sensor3.lineIntersection[line3c].getY());
+									}
 
-//									sensorLine2.setEndX(car.sensor2.lineIntersection[line2c].getX()-(3*ratio*Math.cos(Math.toRadians(45))));
-//									sensorLine2.setEndY(car.sensor2.lineIntersection[line2c].getY()-(3*ratio*Math.cos(Math.toRadians(45))));
-//									sensorLine3.setEndX(car.sensor3.lineIntersection[line3c].getX()+(3*ratio*Math.cos(Math.toRadians(45))));
-//									sensorLine3.setEndY(car.sensor3.lineIntersection[line3c].getY()-(3*ratio*Math.cos(Math.toRadians(45))));
 
 								}
 							});
@@ -188,10 +155,14 @@ public class cihw1 extends Application {
 							e.printStackTrace();
 						}
 
-						if (count > 55) {
-							System.out.println("break loop");
+						double checkBreak = car.sensor1.getY();
+
+						if(checkBreak <= canvasPane.line8.getEndY()+15){
+							System.out.println("ooooooooooo");
+							finalFlag = 1;
 							break;
 						}
+						
 					}
 				}
 			}.start();

@@ -23,8 +23,6 @@ public class Fuzzy {
 		
 	}
 	public double getTurnAngle(){
-		//double tempDist = Double.MAX_VALUE;
-		//int smallestId = 0;
 		
 		for(int i=0; i < sensorList.size(); i++){
 			Sensor sensor = sensorList.get(i);
@@ -32,36 +30,15 @@ public class Fuzzy {
 			distance_descriptors.add(des);
 		}
 		
-		System.out.print(distance_descriptors.get(0));
-		System.out.print(distance_descriptors.get(1));
-		System.out.println(distance_descriptors.get(2));
-		System.out.println("================");
+//		System.out.print(distance_descriptors.get(0));
+//		System.out.print(distance_descriptors.get(1));
+//		System.out.println(distance_descriptors.get(2));
+//		System.out.println("================");
 		
 		this.turnAngle = Cal_Angle();
 		distance_descriptors.clear();
-		/*for(int i=0;i<sensorList.size();i++){
-			if(sensorList.get(i).closestLineDist<tempDist){
-				smallestId = i;
-			}
-		}
+
 		
-		switch (smallestId){
-		case 0:
-			if(sensorList.get(smallestId).closestLineDist<40){
-				turnAngle = 0;
-			}
-			break;
-		case 1:
-			if(sensorList.get(smallestId).closestLineDist<40){
-				turnAngle = 20;
-			}
-			break;
-		case 2:
-			if(sensorList.get(smallestId).closestLineDist<40){
-				turnAngle = -20;
-			}
-			break;
-		}*/	
 		return this.turnAngle;
 	}
 	

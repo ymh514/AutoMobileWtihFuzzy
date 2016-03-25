@@ -30,7 +30,7 @@ public class Canvas extends Pane{
 		line1.setEndX(36 * ratio);
 		line1.setEndY(52 * ratio);
 		line1.setStroke(Color.BLACK);
-		line1.setStrokeWidth(2);
+		line1.setStrokeWidth(3);
 		this.getChildren().add(line1);
 
 		line2 = new Line();
@@ -38,8 +38,8 @@ public class Canvas extends Pane{
 		line2.setStartY(52 * ratio);
 		line2.setEndX(24 * ratio);
 		line2.setEndY(30 * ratio);
-		line2.setStroke(Color.BLUE);
-		line2.setStrokeWidth(2);
+		line2.setStroke(Color.GRAY);
+		line2.setStrokeWidth(3);
 		this.getChildren().add(line2);
 
 		line3 = new Line();
@@ -47,8 +47,8 @@ public class Canvas extends Pane{
 		line3.setStartY(52 * ratio);
 		line3.setEndX(36 * ratio);
 		line3.setEndY(42 * ratio);
-		line3.setStroke(Color.BLUE);
-		line3.setStrokeWidth(2);
+		line3.setStroke(Color.GRAY);
+		line3.setStrokeWidth(3);
 
 		this.getChildren().add(line3);
 
@@ -57,8 +57,8 @@ public class Canvas extends Pane{
 		line4.setStartY(30 * ratio);
 		line4.setEndX(48 * ratio);
 		line4.setEndY(30 * ratio);
-		line4.setStroke(Color.BLUE);
-		line4.setStrokeWidth(2);
+		line4.setStroke(Color.GRAY);
+		line4.setStrokeWidth(3);
 
 		this.getChildren().add(line4);
 
@@ -67,8 +67,8 @@ public class Canvas extends Pane{
 		line5.setStartY(42 * ratio);
 		line5.setEndX(60 * ratio);
 		line5.setEndY(42 * ratio);
-		line5.setStroke(Color.BLUE);
-		line5.setStrokeWidth(2);
+		line5.setStroke(Color.GRAY);
+		line5.setStrokeWidth(3);
 
 		this.getChildren().add(line5);
 
@@ -77,8 +77,8 @@ public class Canvas extends Pane{
 		line6.setStartY(30 * ratio);
 		line6.setEndX(48 * ratio);
 		line6.setEndY(15 * ratio);
-		line6.setStroke(Color.BLUE);
-		line6.setStrokeWidth(2);
+		line6.setStroke(Color.GRAY);
+		line6.setStrokeWidth(3);
 
 		this.getChildren().add(line6);
 		
@@ -87,8 +87,8 @@ public class Canvas extends Pane{
 		line7.setStartY(42 * ratio);
 		line7.setEndX(60 * ratio);
 		line7.setEndY(15 * ratio);
-		line7.setStroke(Color.BLUE);
-		line7.setStrokeWidth(2);
+		line7.setStroke(Color.GRAY);
+		line7.setStrokeWidth(3);
 		this.getChildren().add(line7);
 		
 		line8 = new Line();
@@ -96,8 +96,8 @@ public class Canvas extends Pane{
 		line8.setStartY(15 * ratio);
 		line8.setEndX(60 * ratio);
 		line8.setEndY(15 * ratio);
-		line8.setStroke(Color.BLUE);
-		line8.setStrokeWidth(2);
+		line8.setStroke(Color.GRAY);
+		line8.setStrokeWidth(3);
 		this.getChildren().add(line8);
 
 

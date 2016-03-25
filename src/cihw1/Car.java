@@ -30,18 +30,13 @@ public class Car extends Circle {
 		this.setStroke(Color.INDIANRED);
 		this.setFill(Color.TRANSPARENT);
 		this.setStrokeWidth(2);
-		
-		String s1 = "sensor1";
-		String s2 = "sensor2";
-		String s3 = "sensor3";
-		
+				
 		// set sensors
-		sensor1 = new Sensor((this.getCenterX())+3*ratio*Math.cos(Math.toRadians(angle)), this.getCenterY()-3*ratio*Math.sin(Math.toRadians(angle)),this.getCenterX(),this.getCenterY(),s1);
-		sensor2 = new Sensor(this.getCenterX()+(3*ratio*Math.cos(Math.toRadians(angle+45))), this.getCenterY()-(3*ratio*Math.sin(Math.toRadians(angle+45))),this.getCenterX(),this.getCenterY(),s2);
-		sensor3 = new Sensor(this.getCenterX()+(3*ratio*Math.cos(Math.toRadians(angle-45))), this.getCenterY()-(3*ratio*Math.sin(Math.toRadians(angle-45))),this.getCenterX(),this.getCenterY(),s3);
-		
+		sensor1 = new Sensor((this.getCenterX())+3*ratio*Math.cos(Math.toRadians(angle)), this.getCenterY()-3*ratio*Math.sin(Math.toRadians(angle)),this.getCenterX(),this.getCenterY());
+		sensor2 = new Sensor(this.getCenterX()+(3*ratio*Math.cos(Math.toRadians(angle+45))), this.getCenterY()-(3*ratio*Math.sin(Math.toRadians(angle+45))),this.getCenterX(),this.getCenterY());
+		sensor3 = new Sensor(this.getCenterX()+(3*ratio*Math.cos(Math.toRadians(angle-45))), this.getCenterY()-(3*ratio*Math.sin(Math.toRadians(angle-45))),this.getCenterX(),this.getCenterY());
+	
 		fuzzy = new Fuzzy(sensor1, sensor2, sensor3, angle);
-//		sensor3.getDist(canvasPane);
 		
 	}
 
@@ -50,13 +45,13 @@ public class Car extends Circle {
 		// fuzzy first
 		turnAngle = fuzzy.getTurnAngle();
 		
-//		this.setCenterY(this.getCenterY()-3);
 		// moving function has problem
 		this.setCenterX(ratio*(this.getCenterX()/ratio+Math.cos(Math.toRadians(angle + turnAngle))+Math.sin(Math.toRadians(turnAngle))*Math.sin(Math.toRadians(angle))));
 		this.setCenterY(ratio*(this.getCenterY()/ratio-Math.sin(Math.toRadians(angle + turnAngle))+Math.sin(Math.toRadians(turnAngle))*Math.cos(Math.toRadians(angle))));
 
 		// tune sensors coordinate
 		setSensorsCarCoordinate(this.getCenterX(), this.getCenterY());
+		
 		// maybe need mulitple ratio                                                    here
 		angle = angle - (180/Math.PI)*Math.asin((2*Math.sin(Math.toRadians(turnAngle))/(6)));
 		if(angle < 0){
@@ -65,7 +60,6 @@ public class Car extends Circle {
 		if(angle > 360){
 			angle %= 360;
 		}
-//		angle %= 360;
 		
 		this.sensor1.setX((this.getCenterX())+3*ratio*Math.cos(Math.toRadians(angle)));
 		this.sensor1.setY(this.getCenterY()-3*ratio*Math.sin(Math.toRadians(angle)));
@@ -82,13 +76,12 @@ public class Car extends Circle {
 		this.sensor3.setX(this.getCenterX()+(3*ratio*Math.cos(Math.toRadians(angleForS3))));
 		this.sensor3.setY(this.getCenterY()-(3*ratio*Math.sin(Math.toRadians(angleForS3))));
 		
-
 		// add path
 		addPathOnCanvas(canvasPane);
-
 		
 	}
 	public void setSensorsCarCoordinate(double x,double y){
+		
 		this.sensor1.carX = x;
 		this.sensor1.carY = y;
 		this.sensor2.carX = x;
@@ -106,5 +99,12 @@ public class Car extends Circle {
 		path.setFill(Color.DARKGRAY);
 		canvasPane.getChildren().add(path);
 
+	}
+	public void finalTune(){
+
+		// moving function has problem
+		this.setCenterY(this.getCenterX()-ratio*3);
+
+		addPathOnCanvas(canvasPane);
 	}
 }
