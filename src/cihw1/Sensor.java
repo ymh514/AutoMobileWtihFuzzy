@@ -14,10 +14,6 @@ public class Sensor {
 	protected int closestLineId;
 	protected double closestLineDist;
 	protected Point2D[] lineIntersection = new Point2D[8];
-	protected double lineFunA;
-	protected double lineFunB;
-	protected double verticalA;
-	protected double verticalB;
 
 	public Sensor(double x, double y, double carX, double carY) {
 		this.x = x;
@@ -43,113 +39,82 @@ public class Sensor {
 		return this.y;
 	}
 
+	public void setCarX(double carX) {
+		this.carX = carX;
+	}
+
+	public void setCarY(double carY) {
+		this.carY = carY;
+	}
+
+	public double getCarX() {
+		return this.carX;
+	}
+
+	public double getCarY() {
+		return this.carY;
+	}
+
 	public void findIntersection(ArrayList<Line> tempLine, double[] tempDist, int i) {
-		
-		double x3 = tempLine.get(i).getStartX();
-		double y3 = tempLine.get(i).getStartY();
-		double x4 = tempLine.get(i).getEndX();
-		double y4 = tempLine.get(i).getEndY();
-		double c = (y3 - y4) / (x3 - x4);
-		double d = (x3 * y4 - x4 * y3) / (x3 - x4);
 
-		double intersectionX = ((this.carX - this.getX()) * (x3 * y4 - x4 * y3)
-				- (x3 - x4) * (this.carX * this.getY() - this.getX() * this.carY))
-				/ ((x3 - x4) * (this.carY - this.getY()) - (this.carX - this.getX()) * (y3 - y4));
+		double startX = tempLine.get(i).getStartX();
+		double startY = tempLine.get(i).getStartY();
+		double endX = tempLine.get(i).getEndX();
+		double endY = tempLine.get(i).getEndY();
 
-		double intersectionY = ((this.carY - this.getY()) * (x3 * y4 - x4 * y3)
-				- (this.carX * this.getY() - this.getX() * this.carY) * (y3 - y4))
-				/ ((this.carY - this.getY()) * (x3 - x4) - (this.carX - this.getX()) * (y3 - y4));
-		
-		
-		
+		double intersectionX = ((this.carX - this.getX()) * (startX * endY - endX * startY)
+				- (startX - endX) * (this.carX * this.getY() - this.getX() * this.carY))
+				/ ((startX - endX) * (this.carY - this.getY()) - (this.carX - this.getX()) * (startY - endY));
+
+		double intersectionY = ((this.carY - this.getY()) * (startX * endY - endX * startY)
+				- (this.carX * this.getY() - this.getX() * this.carY) * (startY - endY))
+				/ ((this.carY - this.getY()) * (startX - endX) - (this.carX - this.getX()) * (startY - endY));
+
 		lineIntersection[i] = new Point2D(intersectionX, intersectionY);
-		
-		if(checkLineRange(x3,x4,y3,y4,intersectionX,intersectionY) > 0){
+
+		// Check intersection point in the line range or not
+		if (checkLineRange(startX, endX, startY, endY, intersectionX, intersectionY) > 0) {
 			double itsVectorX = this.getX() - this.carX;
 			double itsVectorY = this.getY() - this.carY;
-			double vectorX = intersectionX-this.getX();
-			double vectorY = intersectionY-this.getY();
-			double ans = itsVectorX*vectorX + itsVectorY*vectorY;
+			double vectorX = intersectionX - this.getX();
+			double vectorY = intersectionY - this.getY();
+
+			// 計算向量內積，如為正，則代表此交點為sensor面對方向
+			double ans = itsVectorX * vectorX + itsVectorY * vectorY;
 			double a = this.x - intersectionX;
 			double b = this.y - intersectionY;
 
-			if(ans > 0){
+			if (ans > 0) {
 				tempDist[i] = Math.sqrt(a * a + b * b);
-			}
-			else{
+			} else {
 				tempDist[i] = Double.MAX_VALUE;
 			}
 
-		}
-		else{
+		} else {
 			tempDist[i] = Double.MAX_VALUE;
 		}
-		
-	}
-	public int checkLineRange(double lineSX,double lineEX ,double lineSY,double lineEY ,double x,double y){
-		
-		if(lineSX == lineEX){
-			if( y<=lineSY && y>=lineEY){
-				return 1;
-			}
-			else{
-				return -1;
-			}
-		}
-		else{
-			if( x>=lineSX && x<=lineEX){
-				return 1;
-			}
-			else{
-				return -1;
-			}
 
-		}
 	}
 
-	public int checkPositiveSide(double x, double y) {
-		if(verticalA >= 0){
-			double ans = verticalA * x - y + verticalB;
-			if (ans > 0) {
+	public int checkLineRange(double lineSX, double lineEX, double lineSY, double lineEY, double x, double y) {
+
+		if (lineSX == lineEX) {
+			if (y <= lineSY && y >= lineEY) {
 				return 1;
-			} else if (ans < 0) {
-				return -1;
 			} else {
+				return -1;
+			}
+		} else {
+			if (x >= lineSX && x <= lineEX) {
 				return 1;
+			} else {
+				return -1;
 			}
 
 		}
-		//weired > < can chage to debug
-		else{
-			double ans = -verticalA * x + y - verticalB;
-			if (ans < 0) {
-				return 1;
-			} else if (ans > 0) {
-				return -1;
-			} else {
-				return 1;
-			}
-
-		}
-		
-//		double ans = verticalA * x - y + verticalB;
-//		if (ans > 0) {
-//			return 1;
-//		} else if (ans < 0) {
-//			return -1;
-//		} else {
-//			return 1;
-//		}
-
 	}
 
 	public void calDistance(Canvas canvasPane) {
-
-		lineFunA = (this.carY - this.getY()) / (this.carX - this.getX());
-		lineFunB = (this.carX * this.getY() - this.getX() * this.carY) / (this.carX - this.getX());
-		verticalA = -1 / lineFunA;
-		verticalB = this.carY - this.carX * verticalA;
-
 		ArrayList<Line> tempLine = new ArrayList<Line>();
 		tempLine.add(canvasPane.line1);
 		tempLine.add(canvasPane.line2);
@@ -164,7 +129,7 @@ public class Sensor {
 		// all line
 
 		for (int i = 0; i < tempLine.size(); i++) {
-				findIntersection(tempLine, tempDist, i);
+			findIntersection(tempLine, tempDist, i);
 		}
 
 		double smallestDist = Double.MAX_VALUE;
@@ -175,7 +140,7 @@ public class Sensor {
 				smallestId = i;
 			}
 		}
-		
+
 		closestLineId = smallestId;
 		closestLineDist = smallestDist;
 
