@@ -5,6 +5,7 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.concurrent.Task;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -20,9 +21,9 @@ public class cihw1 extends Application {
 
 	private Canvas canvasPane;
 	private Car car;
-	private Label line1Dist = new Label("Line 1 distance");
-	private Label line2Dist = new Label("Line 2 distance");
-	private Label line3Dist = new Label("Line 3 distance");
+	private Label line1Dist = new Label("Red");
+	private Label line2Dist = new Label("Blue");
+	private Label line3Dist = new Label("Green");
 	private Label angleInfo = new Label("");
 	private Line sensorLine1;
 	private Line sensorLine2;
@@ -66,42 +67,16 @@ public class cihw1 extends Application {
 		Label initialAngleSign = new Label("Please slide to start angle :");
 
 		infoBox.setPadding(new Insets(15, 50, 15, 15));
-		infoBox.getChildren().addAll(start,restart, line1Dist, line2Dist, line3Dist, angleInfo,initialAngleSign,slider,initialAngle);
+		infoBox.getChildren().addAll(start,restart, line3Dist, line1Dist, line2Dist, angleInfo,initialAngleSign,slider,initialAngle);
+		
+		line1Dist.setTextFill(Color.DARKRED);
+		line2Dist.setTextFill(Color.DARKBLUE);
+		line3Dist.setTextFill(Color.DARKGREEN);
 		
 		/*
 		 * Set sensor lines
 		 */
-		sensorLine1 = new Line();
-		sensorLine1.setStartX(car.getCenterX());
-		sensorLine1.setStartY(car.getCenterY());
-		sensorLine1.setEndX(car.sensor1.getX());
-		sensorLine1.setEndY(car.sensor1.getY());
-		sensorLine1.startXProperty().bind(car.centerXProperty());
-		sensorLine1.startYProperty().bind(car.centerYProperty());
-		sensorLine1.setStroke(Color.DARKRED);
-
-		sensorLine2 = new Line();
-		sensorLine2.setStartX(car.getCenterX());
-		sensorLine2.setStartY(car.getCenterY());
-		sensorLine2.setEndX(car.sensor2.getX());
-		sensorLine2.setEndY(car.sensor2.getY());
-		sensorLine2.startXProperty().bind(car.centerXProperty());
-		sensorLine2.startYProperty().bind(car.centerYProperty());
-		sensorLine2.setStroke(Color.DARKBLUE);
-
-		sensorLine3 = new Line();
-		sensorLine3.setStartX(car.getCenterX());
-		sensorLine3.setStartY(car.getCenterY());
-		sensorLine3.setEndX(car.sensor3.getX());
-		sensorLine3.setEndY(car.sensor3.getY());
-		sensorLine3.startXProperty().bind(car.centerXProperty());
-		sensorLine3.startYProperty().bind(car.centerYProperty());
-		sensorLine3.setStroke(Color.DARKGREEN);
-		
-
-
-		canvasPane.getChildren().addAll(sensorLine1, sensorLine2, sensorLine3);
-
+		sensorLinesSetting();
 		
 		slider.valueProperty().addListener(new ChangeListener<Number>() {
 			@Override
@@ -116,9 +91,19 @@ public class cihw1 extends Application {
         });
 
 		restart.setOnMouseClicked(event ->{
-			this.canvasPane = new Canvas();
+			this.canvasPane.rePaint();
 			this.car = new Car(this.canvasPane);
+			canvasPane.getChildren().add(car);
+			sensorLinesSetting();
+			finalFlag = 0;
+			line1Dist.setText("Middle Line");
+			line2Dist.setText("Right Line");
+			line3Dist.setText("Left Line");
+			angleInfo.setText("Angle value : "+Math.round((double) slider.getValue() * 100.0) / 100.0+"º");
+			slider.setDisable(false);
+			
 		});
+		
 		canvasPane.setOnMouseClicked(event ->{
 
 			car.initialSetCar(event.getX(), event.getY());
@@ -136,6 +121,7 @@ public class cihw1 extends Application {
 			initialAngle.setText("Initial angle value : " + initialAngleValue+"º");
 			initialAngleSign.setText("");
 			// Open a thread to update GUI
+			
 			new Thread() {
 				public void run() {
 					while (true) {
@@ -159,8 +145,7 @@ public class cihw1 extends Application {
 										sensorLine3.setVisible(false);
 										// Interrupted the thread which just
 										// created
-										Thread.interrupted();
-
+										
 										// The function for normal round
 									} else {
 
@@ -179,8 +164,8 @@ public class cihw1 extends Application {
 						}
 
 						// When goal -> break the while loop
-						double checkBreak = car.sensor1.getY();
-						if (checkBreak <= canvasPane.line8.getEndY() + 15) {
+						double checkBreak = car.getCenterY();
+						if (checkBreak <= canvasPane.line8.getEndY() + 30) {
 							finalFlag = 1;
 							break;
 						}
@@ -210,9 +195,9 @@ public class cihw1 extends Application {
 		car.sensor3.calDistance(canvasPane);
 
 		// Set showing information
-		line1Dist.setText(car.sensor1.getDist());
-		line2Dist.setText(car.sensor2.getDist());
-		line3Dist.setText(car.sensor3.getDist());
+		line1Dist.setText("Red Line :"+car.sensor1.getDist());
+		line2Dist.setText("Blue Line :"+car.sensor2.getDist());
+		line3Dist.setText("Green Line :"+car.sensor3.getDist());
 		angleInfo.setText("Angle with x-axis : " + Math.round(car.angle * 1000.0) / 1000.0+"º");
 
 		// Set sensor lines
@@ -234,7 +219,41 @@ public class cihw1 extends Application {
 		System.out.println("************************");
 
 	}
-	
+	public void sensorLinesSetting(){
+		sensorLine1 = new Line();
+		sensorLine1.setStartX(car.getCenterX());
+		sensorLine1.setStartY(car.getCenterY());
+		sensorLine1.setEndX(car.sensor1.getX());
+		sensorLine1.setEndY(car.sensor1.getY());
+		sensorLine1.startXProperty().bind(car.centerXProperty());
+		sensorLine1.startYProperty().bind(car.centerYProperty());
+		sensorLine1.setStroke(Color.DARKRED);
+
+		sensorLine2 = new Line();
+		sensorLine2.setStartX(car.getCenterX());
+		sensorLine2.setStartY(car.getCenterY());
+		sensorLine2.setEndX(car.sensor2.getX());
+		sensorLine2.setEndY(car.sensor2.getY());
+		sensorLine2.startXProperty().bind(car.centerXProperty());
+		sensorLine2.startYProperty().bind(car.centerYProperty());
+		sensorLine2.setStroke(Color.DARKBLUE);
+
+		sensorLine3 = new Line();
+		sensorLine3.setStartX(car.getCenterX());
+		sensorLine3.setStartY(car.getCenterY());
+		sensorLine3.setEndX(car.sensor3.getX());
+		sensorLine3.setEndY(car.sensor3.getY());
+		sensorLine3.startXProperty().bind(car.centerXProperty());
+		sensorLine3.startYProperty().bind(car.centerYProperty());
+		sensorLine3.setStroke(Color.DARKGREEN);
+		
+		sensorLine1.setVisible(true);
+		sensorLine2.setVisible(true);
+		sensorLine3.setVisible(true);
+		
+		canvasPane.getChildren().addAll(sensorLine1, sensorLine2, sensorLine3);
+
+	}
 
 	public static void main(String[] args) {
 		launch(args);

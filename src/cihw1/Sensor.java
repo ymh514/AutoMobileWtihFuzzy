@@ -159,7 +159,7 @@ public class Sensor {
 	}
 
 	public String getDist() {
-		String distInfo = "Line" + (this.closestLineId + 1) + " : " + (Math.round(this.closestLineDist * 1000.0) / 1000.0);
+		String distInfo = " "+Math.round(this.closestLineDist * 1000.0) / 1000.0;
 		return distInfo;
 	}
 
