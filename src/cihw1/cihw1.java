@@ -167,28 +167,7 @@ public class cihw1 extends Application {
 										// Tune car's position and angle
 										car.tuneCar(canvasPane);
 
-										// Calculate the distance with walls
-										car.sensor1.calDistance(canvasPane);
-										car.sensor2.calDistance(canvasPane);
-										car.sensor3.calDistance(canvasPane);
-
-										// Set showing information
-										line1Dist.setText(car.sensor1.getDist());
-										line2Dist.setText(car.sensor2.getDist());
-										line3Dist.setText(car.sensor3.getDist());
-										angleInfo.setText("Angle with x-axis : " + Math.round(car.angle * 1000.0) / 1000.0+"º");
-
-										// Set sensor lines
-										int sensor1ClosetId = car.sensor1.getClosestLineId();
-										int sensor2ClosetId = car.sensor2.getClosestLineId();
-										int sensor3ClosetId = car.sensor3.getClosestLineId();
-										
-										sensorLine1.setEndX(car.sensor1.getIntersectionPointX(sensor1ClosetId));
-										sensorLine1.setEndY(car.sensor1.getIntersectionPointY(sensor1ClosetId));
-										sensorLine2.setEndX(car.sensor2.getIntersectionPointX(sensor2ClosetId));
-										sensorLine2.setEndY(car.sensor2.getIntersectionPointY(sensor2ClosetId));
-										sensorLine3.setEndX(car.sensor3.getIntersectionPointX(sensor3ClosetId));
-										sensorLine3.setEndY(car.sensor3.getIntersectionPointY(sensor3ClosetId));
+										initialSetSensorsLine();
 									}
 
 								}
@@ -224,6 +203,29 @@ public class cihw1 extends Application {
 		sensorLine2.setEndY(car.sensor2.getY());
 		sensorLine3.setEndX(car.sensor3.getX());
 		sensorLine3.setEndY(car.sensor3.getY());
+		
+		// Calculate the distance with walls
+		car.sensor1.calDistance(canvasPane);
+		car.sensor2.calDistance(canvasPane);
+		car.sensor3.calDistance(canvasPane);
+
+		// Set showing information
+		line1Dist.setText(car.sensor1.getDist());
+		line2Dist.setText(car.sensor2.getDist());
+		line3Dist.setText(car.sensor3.getDist());
+		angleInfo.setText("Angle with x-axis : " + Math.round(car.angle * 1000.0) / 1000.0+"º");
+
+		// Set sensor lines
+		int sensor1ClosetId = car.sensor1.getClosestLineId();
+		int sensor2ClosetId = car.sensor2.getClosestLineId();
+		int sensor3ClosetId = car.sensor3.getClosestLineId();
+		
+		sensorLine1.setEndX(car.sensor1.getIntersectionPointX(sensor1ClosetId));
+		sensorLine1.setEndY(car.sensor1.getIntersectionPointY(sensor1ClosetId));
+		sensorLine2.setEndX(car.sensor2.getIntersectionPointX(sensor2ClosetId));
+		sensorLine2.setEndY(car.sensor2.getIntersectionPointY(sensor2ClosetId));
+		sensorLine3.setEndX(car.sensor3.getIntersectionPointX(sensor3ClosetId));
+		sensorLine3.setEndY(car.sensor3.getIntersectionPointY(sensor3ClosetId));
 
 	}
 	public void printCurrentThread() {
