@@ -7,13 +7,13 @@ import javafx.scene.shape.Line;
 
 public class Sensor {
 
-	protected double carX;
-	protected double carY;
-	protected double x;
-	protected double y;
-	protected int closestLineId;
-	protected double closestLineDist;
-	protected Point2D[] lineIntersection = new Point2D[8];
+	private double carX;
+	private double carY;
+	private double x;
+	private double y;
+	private int closestLineId;
+	private double closestLineDist;
+	private Point2D[] lineIntersection = new Point2D[8];
 
 	public Sensor(double x, double y, double carX, double carY) {
 		this.x = x;
@@ -70,7 +70,7 @@ public class Sensor {
 				- (this.carX * this.getY() - this.getX() * this.carY) * (startY - endY))
 				/ ((this.carY - this.getY()) * (startX - endX) - (this.carX - this.getX()) * (startY - endY));
 
-		lineIntersection[i] = new Point2D(intersectionX, intersectionY);
+		this.lineIntersection[i] = new Point2D(intersectionX, intersectionY);
 
 		// Check intersection point in the line range or not
 		if (checkLineRange(startX, endX, startY, endY, intersectionX, intersectionY) > 0) {
@@ -141,13 +141,25 @@ public class Sensor {
 			}
 		}
 
-		closestLineId = smallestId;
-		closestLineDist = smallestDist;
+		this.closestLineId = smallestId;
+		this.closestLineDist = smallestDist;
 
+	}
+	public int getClosestLineId(){
+		return this.closestLineId;
+	}
+	public double getClosestLineDistance(){
+		return this.closestLineDist;
+	}
+	public double getIntersectionPointX(int i){
+		return this.lineIntersection[i].getX();
+	}
+	public double getIntersectionPointY(int i){
+		return this.lineIntersection[i].getY();
 	}
 
 	public String getDist() {
-		String distInfo = "Line" + (closestLineId + 1) + " : " + (Math.round(closestLineDist * 1000.0) / 1000.0);
+		String distInfo = "Line" + (this.closestLineId + 1) + " : " + (Math.round(this.closestLineDist * 1000.0) / 1000.0);
 		return distInfo;
 	}
 
