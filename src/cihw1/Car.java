@@ -79,6 +79,33 @@ public class Car extends Circle {
 		addPathOnCanvas(canvasPane);
 		
 	}
+	public void initialSetCar(double coordinateX,double coordinateY){
+		
+		// Tune car's coordinate
+		this.setCenterX(coordinateX);
+		this.setCenterY(coordinateY);
+
+		// Let sensors know car's coordinate
+		setSensorsCarCoordinate(this.getCenterX(), this.getCenterY());
+				
+		// Set sensors X and Y
+		this.sensor1.setX((this.getCenterX())+3*ratio*Math.cos(Math.toRadians(angle)));
+		this.sensor1.setY(this.getCenterY()-3*ratio*Math.sin(Math.toRadians(angle)));
+		double angleForS2 = angle-45;
+		if(angleForS2 <0){
+			angleForS2 += 360;
+		}
+		this.sensor2.setX(this.getCenterX()+(3*ratio*Math.cos(Math.toRadians(angleForS2))));
+		this.sensor2.setY(this.getCenterY()-(3*ratio*Math.sin(Math.toRadians(angleForS2))));
+		double angleForS3 = angle+45;
+		if(angleForS3 > 360){
+			angleForS3 %= 360;
+		}
+		this.sensor3.setX(this.getCenterX()+(3*ratio*Math.cos(Math.toRadians(angleForS3))));
+		this.sensor3.setY(this.getCenterY()-(3*ratio*Math.sin(Math.toRadians(angleForS3))));
+		
+		// Add path on canvas
+	}
 	public void setSensorsCarCoordinate(double x,double y){
 		this.sensor1.setCarX(x);
 		this.sensor2.setCarX(x);

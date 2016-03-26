@@ -3,18 +3,12 @@ package cihw1;
 import java.util.ArrayList;
 
 public class Fuzzy {
-	protected Sensor sensor1;
-	protected Sensor sensor2;
-	protected Sensor sensor3;
-	protected double angle;
-	protected double turnAngle;
-	protected ArrayList <Sensor> sensorList = new ArrayList<Sensor>();
-	protected ArrayList <Integer> distanceDescriptors = new ArrayList<Integer>(); //0:far 1:middle 2:near
+	private double angle;
+	private double turnAngle;
+	private ArrayList <Sensor> sensorList = new ArrayList<Sensor>();
+	private ArrayList <Integer> distanceDescriptors = new ArrayList<Integer>(); //0:far 1:middle 2:near
 	
 	public Fuzzy(Sensor sensor1,Sensor sensor2,Sensor sensor3,Double angle){
-		this.sensor1 = sensor1;
-		this.sensor2 = sensor2;
-		this.sensor3 = sensor3;
 		sensorList.add(sensor1);
 		sensorList.add(sensor2);
 		sensorList.add(sensor3);
@@ -26,7 +20,7 @@ public class Fuzzy {
 		
 		for(int i=0; i < sensorList.size(); i++){
 			Sensor sensor = sensorList.get(i);
-			Integer des = decitionRank(sensor.closestLineDist);
+			Integer des = decitionRank(sensor.getClosestLineDistance());
 			distanceDescriptors.add(des);
 		}
 				
@@ -37,7 +31,7 @@ public class Fuzzy {
 		return this.turnAngle;
 	}
 	
-	protected Integer decitionRank(double distance){
+	public Integer decitionRank(double distance){
 		
 		Integer descriptor = -1;
 		
@@ -60,7 +54,7 @@ public class Fuzzy {
 		return descriptor;
 	}
 	
-	protected double calAngle(){
+	public double calAngle(){
 		double angle = 0;
 		int sensorNumber = distanceDescriptors.size();
 		int zeroCount = 0;
@@ -79,7 +73,100 @@ public class Fuzzy {
 			return 0;
 		}
 		
-		// Fuzzy rules
+//		int s1 = distanceDescriptors.get(0);
+//		int s2 = distanceDescriptors.get(1);
+//		int s3 = distanceDescriptors.get(2);
+//		// Fuzzy rules
+//		
+//		if(sensorNumber == 3){
+//			if(s1 == 0 && s2 == 0 && s3 == 0){
+//				
+//			}else if(s1 == 0 && s2 == 0 && s3 == 0){
+//				return angle;
+//
+//				
+//			}else if(s1 == 0 && s2 == 0 && s3 == 1){
+//				return angle;
+//
+//				
+//			}else if(s1 == 0 && s2 == 0 && s3 == 2){
+//				return angle;
+//
+//				
+//			}else if(s1 == 0 && s2 == 1 && s3 == 0){
+//				return angle;
+//
+//				
+//			}else if(s1 == 0 && s2 == 1 && s3 == 1){
+//				return angle;
+//
+//				
+//			}else if(s1 == 0 && s2 == 1 && s3 == 2){
+//				return angle;
+//
+//			}else if(s1 == 0 && s2 == 2 && s3 == 0){
+//				return angle;
+//
+//			}else if(s1 == 0 && s2 == 2 && s3 == 1){
+//				return angle;
+//
+//			}else if(s1 == 0 && s2 == 2 && s3 == 2){
+//				return angle;
+//
+//			}else if(s1 == 1 && s2 == 0 && s3 == 0){
+//				return angle;
+//
+//			}else if(s1 == 1 && s2 == 0 && s3 == 1){
+//				return angle;
+//
+//			}else if(s1 == 1 && s2 == 1 && s3 == 0){
+//				return angle;
+//
+//			}else if(s1 == 1 && s2 == 1 && s3 == 1){
+//				return angle;
+//
+//			}else if(s1 == 1 && s2 == 1 && s3 == 2){
+//				return angle;
+//
+//			}else if(s1 == 1 && s2 == 2 && s3 == 0){
+//				return angle;
+//
+//			}else if(s1 == 1 && s2 == 2 && s3 == 1){
+//				return angle;
+//
+//			}else if(s1 == 1 && s2 == 2 && s3 == 2){
+//				return angle;
+//
+//			}else if(s1 == 2 && s2 == 0 && s3 == 0){
+//				return angle;
+//
+//			}else if(s1 == 2 && s2 == 0 && s3 == 1){
+//				return angle;
+//
+//			}else if(s1 == 2 && s2 == 0 && s3 == 2){
+//				return angle;
+//
+//			}else if(s1 == 2 && s2 == 1 && s3 == 0){
+//				return angle;
+//
+//			}else if(s1 == 2 && s2 == 1 && s3 == 1){
+//				return angle;
+//
+//			}else if(s1 == 2 && s2 == 1 && s3 == 2){
+//				return angle;
+//
+//			}else if(s1 == 2 && s2 == 2 && s3 == 0){
+//				return angle;
+//
+//			}else if(s1 == 2 && s2 == 2 && s3 == 1){
+//				return angle;
+//
+//			}else if(s1 == 2 && s2 == 2 && s3 == 2){
+//				return angle;
+//
+//			}
+//		}
+		
 		if(sensorNumber == 3){
 			if( (distanceDescriptors.get(0) == 0) && (distanceDescriptors.get(1) == 0) && (distanceDescriptors.get(2) == 2) ){
 				angle = 30;
