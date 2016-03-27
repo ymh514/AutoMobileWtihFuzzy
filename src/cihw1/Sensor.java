@@ -134,7 +134,7 @@ public class Sensor {
 
 		double smallestDist = Double.MAX_VALUE;
 		int smallestId = 0;
-		for (int i = 1; i < tempDist.length; i++) {
+		for (int i = 0; i < tempDist.length; i++) {
 			if (tempDist[i] < smallestDist) {
 				smallestDist = tempDist[i];
 				smallestId = i;
@@ -159,7 +159,7 @@ public class Sensor {
 	}
 
 	public String getDist() {
-		String distInfo = "Line" + (this.closestLineId + 1) + " : " + (Math.round(this.closestLineDist * 1000.0) / 1000.0);
+		String distInfo = " "+Math.round(this.closestLineDist * 1000.0) / 1000.0;
 		return distInfo;
 	}
 
