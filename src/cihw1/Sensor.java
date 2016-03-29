@@ -83,13 +83,13 @@ public class Sensor {
 			double ans = itsVectorX * vectorX + itsVectorY * vectorY;
 			double a = this.x - intersectionX;
 			double b = this.y - intersectionY;
-			
+
 			if (ans > 0) {
 				tempDist[i] = Math.sqrt(a * a + b * b);
 			} else {
 				tempDist[i] = Double.MAX_VALUE;
 			}
-			
+
 		} else {
 			tempDist[i] = Double.MAX_VALUE;
 		}
