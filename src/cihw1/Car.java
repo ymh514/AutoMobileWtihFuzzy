@@ -62,15 +62,15 @@ public class Car extends Circle {
 		// Set sensors X and Y
 		this.sensor1.setX((this.getCenterX())+3*ratio*Math.cos(Math.toRadians(angle)));
 		this.sensor1.setY(this.getCenterY()-3*ratio*Math.sin(Math.toRadians(angle)));
-		double angleForS2 = angle-45;
-		if(angleForS2 <0){
-			angleForS2 += 360;
+		double angleForS2 = angle+45;
+		if(angleForS2 >360){
+			angleForS2 %= 360;
 		}
 		this.sensor2.setX(this.getCenterX()+(3*ratio*Math.cos(Math.toRadians(angleForS2))));
 		this.sensor2.setY(this.getCenterY()-(3*ratio*Math.sin(Math.toRadians(angleForS2))));
-		double angleForS3 = angle+45;
-		if(angleForS3 > 360){
-			angleForS3 %= 360;
+		double angleForS3 = angle-45;
+		if(angleForS3 <0){
+			angleForS3 += 360;
 		}
 		this.sensor3.setX(this.getCenterX()+(3*ratio*Math.cos(Math.toRadians(angleForS3))));
 		this.sensor3.setY(this.getCenterY()-(3*ratio*Math.sin(Math.toRadians(angleForS3))));
