@@ -170,108 +170,108 @@ public class Fuzzy {
 
 		if (sensorNumber == 3) {
 			if (leftS == 0 && middleS == 0 && rightS == 0) {
-				angle = checkRank(angle) - 40;
+				angle = checkRank(angle) ;
 				return angle;
 
 			} else if (leftS == 0 && middleS == 0 && rightS == 1) {
-				angle = checkRank(angle) - 40;
+				angle = checkRank(angle) ;
 				return angle;
 
 			} else if (leftS == 0 && middleS == 0 && rightS == 2) {
 				angle = 40;
-				angle = checkRank(angle) - 40;
+				angle = checkRank(angle) ;
 				return angle;
 
 			} else if (leftS == 0 && middleS == 1 && rightS == 0) {
-				angle = checkRank(angle) - 40;
+				angle = checkRank(angle) ;
 				return angle;
 
 			} else if (leftS == 0 && middleS == 1 && rightS == 1) {
 				angle = 30;
 
-				angle = checkRank(angle) - 40;
+				angle = checkRank(angle) ;
 				return angle;
 
 			} else if (leftS == 0 && middleS == 1 && rightS == 2) {
 				angle = 40;
-				angle = checkRank(angle) - 40;
+				angle = checkRank(angle) ;
 				return angle;
 
 			} else if (leftS == 0 && middleS == 2 && rightS == 0) {
 				angle = -40;
-				angle = checkRank(angle) - 40;
+				angle = checkRank(angle) ;
 				return angle;
 
 			} else if (leftS == 0 && middleS == 2 && rightS == 1) {
 				angle = 40;
-				angle = checkRank(angle) - 40;
+				angle = checkRank(angle) ;
 				return angle;
 
 			} else if (leftS == 0 && middleS == 2 && rightS == 2) {
 				angle = 40;
-				angle = checkRank(angle) - 40;
+				angle = checkRank(angle) ;
 				return angle;
 
 			} else if (leftS == 1 && middleS == 0 && rightS == 0) {
 
-				angle = checkRank(angle) - 40;
+				angle = checkRank(angle) ;
 				return angle;
 
 			} else if (leftS == 1 && middleS == 0 && rightS == 1) {
-				angle = checkRank(angle) - 40;
+				angle = checkRank(angle) ;
 				return angle;
 
 			} else if (leftS == 1 && middleS == 0 && rightS == 2) {
 				angle = -10;
-				angle = checkRank(angle) - 40;
+				angle = checkRank(angle) ;
 				return angle;
 
 			} else if (leftS == 1 && middleS == 1 && rightS == 0) {
 				angle = -10;
-				angle = checkRank(angle) - 40;
+				angle = checkRank(angle) ;
 				return angle;
 
 			} else if (leftS == 1 && middleS == 1 && rightS == 1) {
-				angle = checkRank(angle) - 40;
+				angle = checkRank(angle);
 				return angle;
 
 			} else if (leftS == 1 && middleS == 1 && rightS == 2) {
 				angle = 10;
-				angle = checkRank(angle) - 40;
+				angle = checkRank(angle);
 				return angle;
 
 			} else if (leftS == 1 && middleS == 2 && rightS == 0) {
 				angle = -10;
-				angle = checkRank(angle) - 40;
+				angle = checkRank(angle) ;
 				return angle;
 
 			} else if (leftS == 1 && middleS == 2 && rightS == 1) {
 				angle = -30;
-				angle = checkRank(angle) - 40;
+				angle = checkRank(angle) ;
 				return angle;
 
 			} else if (leftS == 1 && middleS == 2 && rightS == 2) {
 				angle = 30;
-				angle = checkRank(angle) - 40;
+				angle = checkRank(angle) ;
 				return angle;
 
 			} else if (leftS == 2 && middleS == 0 && rightS == 0) {
 				angle = -30;
-				angle = checkRank(angle) - 40;
+				angle = checkRank(angle) ;
 				return angle;
 
 			} else if (leftS == 2 && middleS == 0 && rightS == 1) {
 				angle = -10;
-				angle = checkRank(angle) - 40;
+				angle = checkRank(angle) ;
 				return angle;
 
 			} else if (leftS == 2 && middleS == 0 && rightS == 2) {
-				angle = checkRank(angle) - 40;
+				angle = checkRank(angle) ;
 				return angle;
 
 			} else if (leftS == 2 && middleS == 1 && rightS == 0) {
 				angle = -30;
-				angle = checkRank(angle) - 40;
+				angle = checkRank(angle) ;
 				return angle;
 
 			} else if (leftS == 2 && middleS == 1 && rightS == 1) {
@@ -280,26 +280,26 @@ public class Fuzzy {
 				return angle;
 
 			} else if (leftS == 2 && middleS == 1 && rightS == 2) {
-				angle = checkRank(angle) - 40;
+				angle = checkRank(angle) ;
 				return angle;
 
 			} else if (leftS == 2 && middleS == 2 && rightS == 0) {
 				angle = -40;
-				angle = checkRank(angle) - 40;
+				angle = checkRank(angle) ;
 				return angle;
 
 			} else if (leftS == 2 && middleS == 2 && rightS == 1) {
 				angle = 10;
-				angle = checkRank(angle) - 40;
+				angle = checkRank(angle) ;
 				return angle;
 
 			} else if (leftS == 2 && middleS == 2 && rightS == 2) {
-				angle = checkRank(angle) - 40;
+				angle = checkRank(angle) ;
 				return angle;
 
 			}
 		}
-
+		System.out.println("aa "+angle);
 		return angle;
 	}
 }

@@ -30,6 +30,7 @@ public class cihw1 extends Application {
 	private Line sensorLine3;
 	private int finalFlag = 0;
 	private double initialAngleValue = 90;
+	private int ratio = 10;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -85,7 +86,7 @@ public class cihw1 extends Application {
 				initialAngle.setText("Angle value : "+Math.round((double)newValue * 100.0) / 100.0+"º");
 				initialAngleValue = (double) Math.round((double)newValue * 100.0) / 100.0;
 				car.angle = (double) newValue;
-				car.initialSetCar(car.getCenterX(), car.getCenterY() );
+				car.sliderTuneCar();
 				initialSetSensorsLine();
 			}
         });
@@ -121,13 +122,13 @@ public class cihw1 extends Application {
 			initialAngle.setText("Initial angle value : " + initialAngleValue+"º");
 			initialAngleSign.setText("");
 			// Open a thread to update GUI
-			
+		
 			new Thread() {
 				public void run() {
 					while (true) {
 						try {
 							// Main thread sleep
-							Thread.sleep(100);
+							Thread.sleep(500);
 
 							Platform.runLater(new Runnable() {
 								// GUI update by javafx thread
@@ -148,7 +149,6 @@ public class cihw1 extends Application {
 										
 										// The function for normal round
 									} else {
-
 										// Tune car's position and angle
 										car.tuneCar(canvasPane);
 
@@ -182,12 +182,20 @@ public class cihw1 extends Application {
 
 	}
 	public void initialSetSensorsLine(){
-		sensorLine1.setEndX(car.sensor1.getX());
-		sensorLine1.setEndY(car.sensor1.getY());
-		sensorLine2.setEndX(car.sensor2.getX());
-		sensorLine2.setEndY(car.sensor2.getY());
-		sensorLine3.setEndX(car.sensor3.getX());
-		sensorLine3.setEndY(car.sensor3.getY());
+		sensorLine1.setStartX(transToCanvasX(car.getX()));
+		sensorLine1.setStartY(transToCanvasY(car.getY()));
+		sensorLine1.setEndX(transToCanvasX(car.sensor1.getX()));
+		sensorLine1.setEndY(transToCanvasY(car.sensor1.getY()));
+		
+		sensorLine2.setStartX(transToCanvasX(car.getX()));
+		sensorLine2.setStartY(transToCanvasY(car.getY()));
+		sensorLine2.setEndX(transToCanvasX(car.sensor2.getX()));
+		sensorLine2.setEndY(transToCanvasY(car.sensor2.getY()));
+		
+		sensorLine3.setStartX(transToCanvasX(car.getX()));
+		sensorLine3.setStartY(transToCanvasY(car.getY()));
+		sensorLine3.setEndX(transToCanvasX(car.sensor3.getX()));
+		sensorLine3.setEndY(transToCanvasY(car.sensor3.getY()));
 		
 		// Calculate the distance with walls
 		car.sensor1.calDistance(canvasPane);
@@ -205,12 +213,12 @@ public class cihw1 extends Application {
 		int sensor2ClosetId = car.sensor2.getClosestLineId();
 		int sensor3ClosetId = car.sensor3.getClosestLineId();
 		
-		sensorLine1.setEndX(car.sensor1.getIntersectionPointX(sensor1ClosetId));
-		sensorLine1.setEndY(car.sensor1.getIntersectionPointY(sensor1ClosetId));
-		sensorLine2.setEndX(car.sensor2.getIntersectionPointX(sensor2ClosetId));
-		sensorLine2.setEndY(car.sensor2.getIntersectionPointY(sensor2ClosetId));
-		sensorLine3.setEndX(car.sensor3.getIntersectionPointX(sensor3ClosetId));
-		sensorLine3.setEndY(car.sensor3.getIntersectionPointY(sensor3ClosetId));
+		sensorLine1.setEndX(transToCanvasX(car.sensor1.getIntersectionPointX(sensor1ClosetId)));
+		sensorLine1.setEndY(transToCanvasY(car.sensor1.getIntersectionPointY(sensor1ClosetId)));
+		sensorLine2.setEndX(transToCanvasX(car.sensor2.getIntersectionPointX(sensor2ClosetId)));
+		sensorLine2.setEndY(transToCanvasY(car.sensor2.getIntersectionPointY(sensor2ClosetId)));
+		sensorLine3.setEndX(transToCanvasX(car.sensor3.getIntersectionPointX(sensor3ClosetId)));
+		sensorLine3.setEndY(transToCanvasY(car.sensor3.getIntersectionPointY(sensor3ClosetId)));
 
 	}
 	public void printCurrentThread() {
@@ -221,30 +229,30 @@ public class cihw1 extends Application {
 	}
 	public void sensorLinesSetting(){
 		sensorLine1 = new Line();
-		sensorLine1.setStartX(car.getCenterX());
-		sensorLine1.setStartY(car.getCenterY());
-		sensorLine1.setEndX(car.sensor1.getX());
-		sensorLine1.setEndY(car.sensor1.getY());
-		sensorLine1.startXProperty().bind(car.centerXProperty());
-		sensorLine1.startYProperty().bind(car.centerYProperty());
+		sensorLine1.setStartX(transToCanvasX(car.getX()));
+		sensorLine1.setStartY(transToCanvasY(car.getY()));
+		sensorLine1.setEndX(transToCanvasX(car.sensor1.getX()));
+		sensorLine1.setEndY(transToCanvasY(car.sensor1.getY()));
+//		sensorLine1.startXProperty().bind(car.centerXProperty());
+//		sensorLine1.startYProperty().bind(car.centerYProperty());
 		sensorLine1.setStroke(Color.DARKRED);
 
 		sensorLine2 = new Line();
-		sensorLine2.setStartX(car.getCenterX());
-		sensorLine2.setStartY(car.getCenterY());
-		sensorLine2.setEndX(car.sensor2.getX());
-		sensorLine2.setEndY(car.sensor2.getY());
-		sensorLine2.startXProperty().bind(car.centerXProperty());
-		sensorLine2.startYProperty().bind(car.centerYProperty());
+		sensorLine2.setStartX(transToCanvasX(car.getX()));
+		sensorLine2.setStartY(transToCanvasY(car.getY()));
+		sensorLine2.setEndX(transToCanvasX(car.sensor2.getX()));
+		sensorLine2.setEndY(transToCanvasY(car.sensor2.getY()));
+//		sensorLine2.startXProperty().bind(car.centerXProperty());
+//		sensorLine2.startYProperty().bind(car.centerYProperty());
 		sensorLine2.setStroke(Color.DARKBLUE);
 
 		sensorLine3 = new Line();
-		sensorLine3.setStartX(car.getCenterX());
-		sensorLine3.setStartY(car.getCenterY());
-		sensorLine3.setEndX(car.sensor3.getX());
-		sensorLine3.setEndY(car.sensor3.getY());
-		sensorLine3.startXProperty().bind(car.centerXProperty());
-		sensorLine3.startYProperty().bind(car.centerYProperty());
+		sensorLine3.setStartX(transToCanvasX(car.getX()));
+		sensorLine3.setStartY(transToCanvasY(car.getY()));
+		sensorLine3.setEndX(transToCanvasX(car.sensor3.getX()));
+		sensorLine3.setEndY(transToCanvasY(car.sensor3.getY()));
+//		sensorLine3.startXProperty().bind(car.centerXProperty());
+//		sensorLine3.startYProperty().bind(car.centerYProperty());
 		sensorLine3.setStroke(Color.DARKGREEN);
 		
 		sensorLine1.setVisible(true);
@@ -253,6 +261,23 @@ public class cihw1 extends Application {
 		
 		canvasPane.getChildren().addAll(sensorLine1, sensorLine2, sensorLine3);
 
+	}
+	public double transToCanvasX(double x) {
+		double value = (x + 30) * ratio;
+		return value;
+	}
+
+	public double transToCanvasY(double y) {
+		double value = (-y + 52) * ratio;
+		return value;
+	}
+	public double transBackX(double x){
+		double value = (x /ratio)-30;
+		return value;
+	}
+	public double transBackY(double y){
+		double value = -1*((y /ratio)-52);
+		return value;
 	}
 
 	public static void main(String[] args) {
